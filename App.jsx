@@ -9,21 +9,21 @@ import SearchBar from "./src/components/SearchBar";
 export default function App() {
   const [text, onChangeText] = useState("Search...");
   const TOKEN_ENDPOINT = "https://api.intra.42.fr/oauth/token";
-  const USER_ENDPOINT = "https://api.intra.42.fr/v2/users/ayagoumi";
+  // const USER_ENDPOINT = "https://api.intra.42.fr/v2/users/ayagoumi";
   const [expires_in, setExpiresIn] = useState(0);
   const [created_at, setCreatedAt] = useState(0);
   const [token, setToken] = useState("");
   const [numb, setNumb] = useState(0);
 
-  const getData = async () => {
-    const response = await fetch(USER_ENDPOINT, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.json();
-    console.log(data.cursus_users);
-  };
+  // const getData = async () => {
+  //   const response = await fetch(USER_ENDPOINT, {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
+  //   const data = await response.json();
+  //   console.log(data.cursus_users);
+  // };
 
   useLayoutEffect(() => {
     fetch(TOKEN_ENDPOINT, {
@@ -45,9 +45,8 @@ export default function App() {
     // getData();
   }, []);
 
-  const time = (Date.now() / 1000) - (created_at);
   useEffect(() => {
-    if (time <= 0) {
+    if (expires_in <= 0) {
       fetch(TOKEN_ENDPOINT, {
         method: "POST",
         headers: {
@@ -65,18 +64,18 @@ export default function App() {
           console.log(error);
         });
     }
-  }, [time]);
+  }, [expires_in]);
 
-  // const [mintime, setMintime] = useState(0);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setMintime((Date.now() / 1000) - (created_at + expires_in));
-  //   }, 1000);
-  // }, [Date.now()]);
+  const [mintime, setMintime] = useState(0);
+  useEffect(() => {
+    setTimeout(() => {
+      setMintime(expires_in);
+    }, 1000);
+  }, [expires_in]);
 
   useEffect(() => {
     setNumb(numb + 1);
-  }, [token])
+  }, [token]);
 
   return (
     <SafeAreaView style={styles.viewContainer}>
@@ -88,9 +87,7 @@ export default function App() {
           <Text>token : {token}</Text>
           <Text>Number of changes : {numb}</Text>
           <Text>Expires in : {expires_in}</Text>
-          <Text>Expires at : {created_at}</Text>
-          <Text>Date Now : {Date.now() / 1000}</Text>
-          {/* <Text>Time : {mintime}</Text> */}
+          <Text>Time : {mintime}</Text>
         </View>
       </View>
     </SafeAreaView>
