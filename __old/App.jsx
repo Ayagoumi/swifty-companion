@@ -9,20 +9,29 @@ import SearchBar from "./src/components/SearchBar";
 export default function App() {
   const [text, onChangeText] = useState("Search...");
   const TOKEN_ENDPOINT = "https://api.intra.42.fr/oauth/token";
-  // const USER_ENDPOINT = "https://api.intra.42.fr/v2/users/ayagoumi";
+  const USER_ENDPOINT = "https://api.intra.42.fr/v2/users/ayagoumi";
   const [expires_in, setExpiresIn] = useState(0);
   const [created_at, setCreatedAt] = useState(0);
   const [token, setToken] = useState("");
   const [numb, setNumb] = useState(0);
+  const [data, setData] = useState();
 
   // const getData = async () => {
   //   const response = await fetch(USER_ENDPOINT, {
   //     headers: {
   //       Authorization: `Bearer ${token}`,
   //     },
-  //   });
-  //   const data = await response.json();
-  //   console.log(data.cursus_users);
+  //   })
+  //     .then((response) => response.json())
+  //     .then((response) => {
+  //       setData(response?.cursus_users);
+  //       console.log("===========================================================================================");
+  //       console.log(response?.cursus_users);
+  //       console.log("===========================================================================================");
+  //     });
+  //   // const data = await response.json();
+  //   // console.log(data.cursus_users);
+  //   // setData(data.cursus_users);
   // };
 
   useLayoutEffect(() => {
@@ -42,8 +51,11 @@ export default function App() {
       .catch((error) => {
         console.log(error);
       });
-    // getData();
   }, []);
+
+  // useEffect(() => {
+  //   getData();
+  // }, [token]);
 
   useEffect(() => {
     if (expires_in <= 0) {
@@ -82,12 +94,13 @@ export default function App() {
       <StatusBar />
       <View style={styles.container}>
         <Navbar />
-        <SearchBar />
+        <SearchBar style="auto"/>
         <View style={styles.content}>
-          <Text>token : {token}</Text>
-          <Text>Number of changes : {numb}</Text>
-          <Text>Expires in : {expires_in}</Text>
-          <Text>Time : {mintime}</Text>
+          {/* <Text>token : {token}</Text> */}
+          {/* <Text>Number of changes : {numb}</Text> */}
+          {/* <Text>Expires in : {expires_in}</Text> */}
+          {/* <Text>Time : {mintime}</Text> */}
+          {/* <Text>data : {data[0]?.updated_at}</Text> */}
         </View>
       </View>
     </SafeAreaView>

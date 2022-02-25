@@ -7,7 +7,7 @@ export default function SearchBar() {
 
   return (
     <View style={styles.searchContainer}>
-      <Text style={styles.searchText}>Search using username</Text>
+      <Text style={styles.searchText}>Search using username1</Text>
       <View style={styles.searchBar}>
         <TextInput
           style={styles.input}
@@ -21,30 +21,24 @@ export default function SearchBar() {
         />
         <Icon name="search" color="#000" size={20} style={styles.searchIcon} />
       </View>
+      {/* <View style={styles.searchBar}>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeText}
+          onFocus={() => onChangeText("")}
+          placeholder="Search"
+          // placeholderTextColor="#D50000"
+          autoCorrect={false}
+          value={text}
+          maxLength={30}
+        />
+        <Icon name="search" color="#000" size={20} style={styles.searchIcon} />
+      </View> */}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  viewContainer: {
-    backgroundColor: "#f7f2f2",
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#f7f2f2",
-    alignItems: "center",
-    marginLeft: 20,
-    marginRight: 20,
-  },
-  navbar: {
-    backgroundColor: "#00ff00",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-    height: 50,
-  },
   input: {
     position: "relative",
     height: 55,
