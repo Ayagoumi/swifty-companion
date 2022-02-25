@@ -5,7 +5,6 @@ export default function Navbar() {
   return (
     <View style={styles.navbar}>
       <Text>42 logo</Text>
-      <Text>empty untill login</Text>
       <Text>nightMode</Text>
     </View>
   );

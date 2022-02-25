@@ -33,7 +33,7 @@ export default function SearchBar({ setLogin }) {
             value={text}
             maxLength={30}
           />
-          <Pressable
+          {/* <Pressable
             style={{
               position: "absolute",
               alignSelf: "center",
@@ -47,7 +47,7 @@ export default function SearchBar({ setLogin }) {
               size={20}
               style={{ color: "#8a949e" }}
             />
-          </Pressable>
+          </Pressable> */}
         </View>
         <Pressable
           style={{
@@ -58,10 +58,9 @@ export default function SearchBar({ setLogin }) {
             backgroundColor: "black",
             marginLeft: 7,
           }}
-          // onPress={() => {
-            // setLogin(text);
-            // console.log(text);
-          // }}
+          onPress={() => {
+            setLogin(text);
+          }}
         >
           <Text
             style={{

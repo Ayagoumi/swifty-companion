@@ -1,5 +1,6 @@
 import { AccessToken } from "./access_token";
 import { USER_ENDPOINT } from "@env";
+import axios from "axios";
 
 export const getUserCoalation = async (id) => {
   let res = await AccessToken();
@@ -7,15 +8,10 @@ export const getUserCoalation = async (id) => {
     res = await AccessToken();
   }
 
-  const response = await fetch(`${USER_ENDPOINT}${id}/coalitions`, {
-    method: "GET",
+  const response = await axios.get(`${USER_ENDPOINT}${id}/coalitions`, {
     headers: {
-      Authorization: `${res.token_type} ${res.access_token}`,
+      Authorization: `Bearer ${res.access_token}`,
     },
-  })
-    .then((response) => response.json())
-    .catch((error) => {
-      console.log(error);
-    });
-  return response;
+  });
+  return response.data;
 };

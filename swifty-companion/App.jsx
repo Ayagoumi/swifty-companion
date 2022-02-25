@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, Button, SafeAreaView, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -11,27 +11,28 @@ import { getUserCoalation } from "./src/api/getUserCoalation";
 import { SvgCssUri } from "react-native-svg";
 import Moment from "moment";
 
+
 function HomeScreen({ navigation }) {
   const [data, setData] = useState(null);
-  const [userData, setUserData] = useState(null);
   const [coalation, setCoalation] = useState(null);
+  const [login, setLogin] = useState("");
 
   const getData = async () => {
-    const response = await getUserInfos();
-    setData(response?.cursus_users[2]);
-    setUserData(response?.cursus_users[2]?.user);
+    const response = await getUserInfos(login.toLowerCase());
+    const index = response?.cursus_users.length - 1;
+    if (response) {
+      setData(response?.cursus_users[index]);
+      const res = await getUserCoalation(response?.cursus_users[index]?.user?.id);
+      if (res) setCoalation(res[0]);
+    }
   };
 
-  const getCoalation = async () => {
-    const response = await getUserCoalation(userData?.id);
-    setCoalation(response[0]);
-    // console.log(response[0]);
-  };
-
-  useLayoutEffect(() => {
+  useEffect(() => {
     getData();
-    getCoalation();
-  }, []);
+  }, [login]);
+
+  let level = data?.level.toString();
+  level = level?.split(".")[1];
 
   return (
     <SafeAreaView
@@ -42,7 +43,7 @@ function HomeScreen({ navigation }) {
       }}
     >
       <Navbar />
-      <SearchBar style="auto" />
+      <SearchBar style="auto" setLogin={setLogin} />
       <View
         style={{
           backgroundColor: "#ececec",
@@ -53,7 +54,7 @@ function HomeScreen({ navigation }) {
           padding: 15,
         }}
       >
-        {data && userData && coalation && (
+        {data && data.user && coalation && (
           <UserCard navigation={navigation}>
             <View
               style={{
@@ -67,6 +68,7 @@ function HomeScreen({ navigation }) {
                 width="30px"
                 height="50px"
                 uri={coalation.image_url}
+                fill="#fff"
               />
               <Text
                 style={{
@@ -88,7 +90,7 @@ function HomeScreen({ navigation }) {
                 justifyContent: "space-between",
               }}
             >
-              {userData["staff?"] === false ? (
+              {data.user["staff?"] === false ? (
                 <View
                   style={{
                     backgroundColor: coalation["color"],
@@ -123,7 +125,7 @@ function HomeScreen({ navigation }) {
                 </View>
               )}
               <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                {userData.login}
+                {data.user.login}
               </Text>
             </View>
             <View
@@ -132,16 +134,15 @@ function HomeScreen({ navigation }) {
                 width: "100%",
                 alignItems: "center",
                 flex: 1,
-                justifyContent: "space-evenly",
               }}
             >
               <Text style={{ fontSize: 23, fontWeight: "bold" }}>
-                {userData?.displayname}
+                {data.user?.displayname}
               </Text>
               <Image
                 style={{ width: 110, height: 110, borderRadius: 100 }}
                 source={{
-                  uri: userData?.image_url,
+                  uri: data.user?.image_url,
                 }}
               />
               <View
@@ -168,7 +169,7 @@ function HomeScreen({ navigation }) {
                       marginTop: 5,
                     }}
                   >
-                    {userData?.wallet}
+                    {data.user?.wallet}
                   </Text>
                 </View>
                 <View style={{ alignItems: "center" }}>
@@ -188,7 +189,7 @@ function HomeScreen({ navigation }) {
                       marginTop: 5,
                     }}
                   >
-                    {userData?.correction_point}
+                    {data.user?.correction_point}
                   </Text>
                 </View>
                 <View style={{ alignItems: "center" }}>
@@ -213,33 +214,66 @@ function HomeScreen({ navigation }) {
                 </View>
               </View>
               <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                {userData?.email}
+                {data.user?.email}
               </Text>
               <View
                 style={{
                   alignItems: "center",
                 }}
               >
-                {userData?.Loaction ? (
+                {data.user?.location ? (
                   <Text style={{ fontWeight: "bold", fontSize: 25 }}>
-                    available
+                    Available
                   </Text>
                 ) : (
                   <Text style={{ fontWeight: "bold", fontSize: 25 }}>
                     unavailable
                   </Text>
                 )}
-                {userData?.Loaction ? (
+                {data.user?.location ? (
                   <Text style={{ fontWeight: "bold", fontSize: 25 }}>
-                    {userData?.Location}
+                    {data.user?.location}
                   </Text>
                 ) : (
                   <Text style={{ fontWeight: "bold", fontSize: 25 }}>-</Text>
                 )}
               </View>
               <Text style={{ fontSize: 17, fontWeight: "bold" }}>
-                {Moment(userData?.anonymize_date).format("YYYY-MM-DD")}
+                {Moment(data.user?.anonymize_date).format("YYYY-MM-DD")}
               </Text>
+              <View
+                style={{
+                  width: "100%",
+                  height: 45,
+                  backgroundColor: "rgba(32, 32, 38, 0.75)",
+                  borderRadius: 10,
+                  position: "relative",
+                  justifyContent: "center",
+                }}
+              >
+                <View
+                  style={{
+                    width: `${level}%`,
+                    backgroundColor: coalation["color"],
+                    height: "100%",
+                    borderBottomLeftRadius: 10,
+                    borderTopLeftRadius: 10,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                ></View>
+                <Text
+                  style={{
+                    position: "absolute",
+                    width: "100%",
+                    textAlign: "center",
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
+                >
+                  level {data?.level} %
+                </Text>
+              </View>
             </View>
           </UserCard>
         )}

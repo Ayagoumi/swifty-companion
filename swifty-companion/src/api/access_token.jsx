@@ -1,17 +1,12 @@
 import { TOKEN_ENDPOINT, CLIENT_ID, CLIENT_SECRET } from "@env";
+import axios from "axios";
 
 export const AccessToken = async () => {
-  const response = await fetch(`${TOKEN_ENDPOINT}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: `grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`,
-  })
-    .then((response) => response.json())
-    .catch((error) => {
-      console.log(error);
-    });
-
-  return response;
+  const res = await axios.post(`${TOKEN_ENDPOINT}`, {
+    "Content-Type": "application/x-www-form-urlencoded",
+    grant_type: "client_credentials",
+    client_id: CLIENT_ID,
+    client_secret: CLIENT_SECRET,
+  });
+  return res.data;
 };

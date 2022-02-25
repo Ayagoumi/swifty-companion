@@ -1,20 +1,22 @@
 import { AccessToken } from "./access_token";
 import { USER_ENDPOINT } from "@env";
+import axios from "axios";
 
 export const getUserInfos = async (login) => {
-  let res = await AccessToken();
-  if (res.expires_in <= 0) {
-    res = await AccessToken();
-  }
-
-  const response = await fetch(`${USER_ENDPOINT}ayagoumi`, {
-    headers: {
-      Authorization: `${res.token_type} ${res.access_token}`,
-    },
-  })
-    .then((response) => response.json())
-    .catch((error) => {
-      console.log(error);
+  if (login) {
+    let res = await AccessToken();
+    if (res.expires_in <= 0) {
+      res = await AccessToken();
+    }
+    const response = await axios.get(`${USER_ENDPOINT}${login}`, {
+      headers: {
+        content: "application/json",
+        Authorization: `Bearer ${res.access_token}`,
+      },
     });
-  return response;
+
+    return response.data;
+  }
+  else
+    return null;
 };
