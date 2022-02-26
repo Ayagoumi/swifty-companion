@@ -6,7 +6,7 @@ import { StatusBar } from "expo-status-bar";
 import Navbar from "./src/components/Navbar";
 import SearchBar from "./src/components/SearchBar";
 import UserCard from "./src/components/UserCard";
-import { getUserInfos } from "./src/api/getUserInfos";
+import { getUserInfos, getUserInfo } from "./src/api/getUserInfos";
 import { getUserCoalation } from "./src/api/getUserCoalation";
 import { SvgCssUri } from "react-native-svg";
 import Moment from "moment";
@@ -18,18 +18,24 @@ function HomeScreen({ navigation }) {
   const [clicked, setClicked] = useState(false);
 
   const getData = async () => {
-    const response = await getUserInfos(login.toLowerCase());
-    if (response) {
-      const index = response?.cursus_users.length - 1;
-      setData(response?.cursus_users[index]);
-      const res = await getUserCoalation(
-        response?.cursus_users[index]?.user?.id
-      );
-      if (res) setCoalation(res[0]);
-    } else {
-      setData(null);
-      setCoalation(null);
-    }
+    getUserInfo(login.toLowerCase())
+      .then((res) => {
+        setData(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // if (response) {
+    //   const index = response?.cursus_users.length - 1;
+    //   setData(response?.cursus_users[index]);
+    //   const res = await getUserCoalation(
+    //     response?.cursus_users[index]?.user?.id
+    //   );
+    //   if (res) setCoalation(res[0]);
+    // } else {
+    //   setData(null);
+    //   setCoalation(null);
+    // }
   };
 
   const clearDataStates = () => {
@@ -41,12 +47,17 @@ function HomeScreen({ navigation }) {
     getData();
   }, [login]);
 
+  const [index, setIndex] = useState(0);
   useEffect(() => {
+    console.log(`-------------------------------------------Data ${index}------------------------------------------`)
+    console.log("data", data);
+    console.log(`-------------------------------------------Data ${index}------------------------------------------`)
+    setIndex(index + 1);
+  }, [data]);
 
-  }, [coalation])
 
-  let level = data?.level.toString();
-  level = level?.split(".")[1];
+  // let level = data?.level.toString();
+  // level = level?.split(".")[1];
 
   return (
     <SafeAreaView
@@ -63,7 +74,7 @@ function HomeScreen({ navigation }) {
         clicked={clicked}
         setClicked={setClicked}
       />
-      <View
+      {/* <View
         style={{
           backgroundColor: "#ececec",
           width: "100%",
@@ -302,7 +313,7 @@ function HomeScreen({ navigation }) {
         ) : (
           <Text onLoad={() => clearDataStates()}>null</Text>
         )}
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 }
