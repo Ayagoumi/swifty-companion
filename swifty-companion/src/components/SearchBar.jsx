@@ -1,15 +1,13 @@
-import { Text, View, TextInput, Pressable } from "react-native";
+import { Text, View, TextInput, Pressable, Keyboard } from "react-native";
 import React, { useState } from "react";
-import Icon from "react-native-vector-icons/FontAwesome";
 
-export default function SearchBar({ setLogin }) {
+export default function SearchBar({ setLogin, clicked, setClicked }) {
   const [text, onChangeText] = useState("");
 
   return (
     <View
       style={{
         width: "100%",
-        // backgroundColor: "#ff0000",
         paddingVertical: 20,
         alignItems: "center",
       }}
@@ -27,27 +25,16 @@ export default function SearchBar({ setLogin }) {
               fontSize: 17,
             }}
             onChangeText={onChangeText}
-            onFocus={() => onChangeText("")}
+            onFocus={() => {
+              onChangeText("");
+              setClicked(false);
+            }}
             placeholder="Search"
             autoCorrect={false}
             value={text}
             maxLength={30}
+            submitAndClear='auto'
           />
-          {/* <Pressable
-            style={{
-              position: "absolute",
-              alignSelf: "center",
-              right: 30,
-              // color: "#8a949e",
-            }}
-          >
-            <Icon
-              name="search"
-              color="#000"
-              size={20}
-              style={{ color: "#8a949e" }}
-            />
-          </Pressable> */}
         </View>
         <Pressable
           style={{
@@ -60,6 +47,9 @@ export default function SearchBar({ setLogin }) {
           }}
           onPress={() => {
             setLogin(text);
+            Keyboard.dismiss();
+            setClicked(true);
+            console.log(clicked);
           }}
         >
           <Text

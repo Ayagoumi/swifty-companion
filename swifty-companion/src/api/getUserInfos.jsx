@@ -3,6 +3,7 @@ import { USER_ENDPOINT } from "@env";
 import axios from "axios";
 
 export const getUserInfos = async (login) => {
+  console.log(login);
   if (login) {
     let res = await AccessToken();
     if (res.expires_in <= 0) {
@@ -14,9 +15,6 @@ export const getUserInfos = async (login) => {
         Authorization: `Bearer ${res.access_token}`,
       },
     });
-
     return response.data;
-  }
-  else
-    return null;
+  } else return null;
 };

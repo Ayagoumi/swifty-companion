@@ -11,25 +11,39 @@ import { getUserCoalation } from "./src/api/getUserCoalation";
 import { SvgCssUri } from "react-native-svg";
 import Moment from "moment";
 
-
 function HomeScreen({ navigation }) {
   const [data, setData] = useState(null);
   const [coalation, setCoalation] = useState(null);
   const [login, setLogin] = useState("");
+  const [clicked, setClicked] = useState(false);
 
   const getData = async () => {
     const response = await getUserInfos(login.toLowerCase());
-    const index = response?.cursus_users.length - 1;
     if (response) {
+      const index = response?.cursus_users.length - 1;
       setData(response?.cursus_users[index]);
-      const res = await getUserCoalation(response?.cursus_users[index]?.user?.id);
+      const res = await getUserCoalation(
+        response?.cursus_users[index]?.user?.id
+      );
       if (res) setCoalation(res[0]);
+    } else {
+      setData(null);
+      setCoalation(null);
     }
+  };
+
+  const clearDataStates = () => {
+    setData(null);
+    setCoalation(null);
   };
 
   useEffect(() => {
     getData();
   }, [login]);
+
+  useEffect(() => {
+
+  }, [coalation])
 
   let level = data?.level.toString();
   level = level?.split(".")[1];
@@ -43,7 +57,12 @@ function HomeScreen({ navigation }) {
       }}
     >
       <Navbar />
-      <SearchBar style="auto" setLogin={setLogin} />
+      <SearchBar
+        style="auto"
+        setLogin={setLogin}
+        clicked={clicked}
+        setClicked={setClicked}
+      />
       <View
         style={{
           backgroundColor: "#ececec",
@@ -54,97 +73,38 @@ function HomeScreen({ navigation }) {
           padding: 15,
         }}
       >
-        {data && data.user && coalation && (
-          <UserCard navigation={navigation}>
-            <View
-              style={{
-                flexDirection: "row",
-                marginBottom: 25,
-                alignItems: "center",
-              }}
-            >
-              <SvgCssUri
-                style={{ backgroundColor: coalation["color"] }}
-                width="30px"
-                height="50px"
-                uri={coalation.image_url}
-                fill="#fff"
-              />
-              <Text
+        {clicked ? (
+          data &&
+          data.user &&
+          coalation && (
+            <UserCard navigation={navigation}>
+              <View
                 style={{
-                  textAlign: "center",
-                  fontWeight: "bold",
-                  color: coalation["color"],
-                  fontSize: 16,
-                  paddingTop: 6,
-                  marginLeft: 5,
+                  flexDirection: "row",
+                  marginBottom: 25,
+                  alignItems: "center",
                 }}
               >
-                {coalation?.name}
-              </Text>
-            </View>
-            <View
-              style={{
-                width: "100%",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              {data.user["staff?"] === false ? (
-                <View
+                <SvgCssUri
+                  style={{ backgroundColor: coalation["color"] }}
+                  width="30px"
+                  height="50px"
+                  uri={coalation.image_url}
+                  fill="#fff"
+                />
+                <Text
                   style={{
-                    backgroundColor: coalation["color"],
-                    padding: 5,
-                    borderRadius: 5,
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    color: coalation["color"],
+                    fontSize: 16,
+                    paddingTop: 6,
+                    marginLeft: 5,
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "white",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    STUDENT
-                  </Text>
-                </View>
-              ) : (
-                <View
-                  style={{
-                    backgroundColor: "#E05757",
-                    padding: 5,
-                    borderRadius: 5,
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontWeight: "bold",
-                    }}
-                  >
-                    STAFF
-                  </Text>
-                </View>
-              )}
-              <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                {data.user.login}
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: "column",
-                width: "100%",
-                alignItems: "center",
-                flex: 1,
-              }}
-            >
-              <Text style={{ fontSize: 23, fontWeight: "bold" }}>
-                {data.user?.displayname}
-              </Text>
-              <Image
-                style={{ width: 110, height: 110, borderRadius: 100 }}
-                source={{
-                  uri: data.user?.image_url,
-                }}
-              />
+                  {coalation?.name}
+                </Text>
+              </View>
               <View
                 style={{
                   width: "100%",
@@ -152,130 +112,195 @@ function HomeScreen({ navigation }) {
                   justifyContent: "space-between",
                 }}
               >
-                <View style={{ alignItems: "center" }}>
-                  <Text
+                {data.user["staff?"] === false ? (
+                  <View
                     style={{
-                      fontSize: 15,
-                      fontWeight: "800",
-                      color: coalation["color"],
+                      backgroundColor: coalation["color"],
+                      padding: 5,
+                      borderRadius: 5,
                     }}
                   >
-                    Wallet
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      fontWeight: "bold",
-                      marginTop: 5,
-                    }}
-                  >
-                    {data.user?.wallet}
-                  </Text>
-                </View>
-                <View style={{ alignItems: "center" }}>
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      fontWeight: "800",
-                      color: coalation["color"],
-                    }}
-                  >
-                    Evaluation points
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      fontWeight: "bold",
-                      marginTop: 5,
-                    }}
-                  >
-                    {data.user?.correction_point}
-                  </Text>
-                </View>
-                <View style={{ alignItems: "center" }}>
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      fontWeight: "800",
-                      color: coalation["color"],
-                    }}
-                  >
-                    Grade
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      fontWeight: "bold",
-                      marginTop: 5,
-                    }}
-                  >
-                    {data?.grade}
-                  </Text>
-                </View>
-              </View>
-              <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                {data.user?.email}
-              </Text>
-              <View
-                style={{
-                  alignItems: "center",
-                }}
-              >
-                {data.user?.location ? (
-                  <Text style={{ fontWeight: "bold", fontSize: 25 }}>
-                    Available
-                  </Text>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      STUDENT
+                    </Text>
+                  </View>
                 ) : (
-                  <Text style={{ fontWeight: "bold", fontSize: 25 }}>
-                    unavailable
-                  </Text>
+                  <View
+                    style={{
+                      backgroundColor: "#E05757",
+                      padding: 5,
+                      borderRadius: 5,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                      }}
+                    >
+                      STAFF
+                    </Text>
+                  </View>
                 )}
-                {data.user?.location ? (
-                  <Text style={{ fontWeight: "bold", fontSize: 25 }}>
-                    {data.user?.location}
-                  </Text>
-                ) : (
-                  <Text style={{ fontWeight: "bold", fontSize: 25 }}>-</Text>
-                )}
-              </View>
-              <Text style={{ fontSize: 17, fontWeight: "bold" }}>
-                {Moment(data.user?.anonymize_date).format("YYYY-MM-DD")}
-              </Text>
-              <View
-                style={{
-                  width: "100%",
-                  height: 45,
-                  backgroundColor: "rgba(32, 32, 38, 0.75)",
-                  borderRadius: 10,
-                  position: "relative",
-                  justifyContent: "center",
-                }}
-              >
-                <View
-                  style={{
-                    width: `${level}%`,
-                    backgroundColor: coalation["color"],
-                    height: "100%",
-                    borderBottomLeftRadius: 10,
-                    borderTopLeftRadius: 10,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                ></View>
-                <Text
-                  style={{
-                    position: "absolute",
-                    width: "100%",
-                    textAlign: "center",
-                    color: "white",
-                    fontWeight: "bold",
-                  }}
-                >
-                  level {data?.level} %
+                <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                  {data.user.login}
                 </Text>
               </View>
-            </View>
-          </UserCard>
+              <View
+                style={{
+                  flexDirection: "column",
+                  width: "100%",
+                  alignItems: "center",
+                  flex: 1,
+                }}
+              >
+                <Text style={{ fontSize: 23, fontWeight: "bold" }}>
+                  {data.user?.displayname}
+                </Text>
+                <Image
+                  style={{ width: 110, height: 110, borderRadius: 100 }}
+                  source={{
+                    uri: data.user?.image_url,
+                  }}
+                />
+                <View
+                  style={{
+                    width: "100%",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <View style={{ alignItems: "center" }}>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        fontWeight: "800",
+                        color: coalation["color"],
+                      }}
+                    >
+                      Wallet
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontWeight: "bold",
+                        marginTop: 5,
+                      }}
+                    >
+                      {data.user?.wallet}
+                    </Text>
+                  </View>
+                  <View style={{ alignItems: "center" }}>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        fontWeight: "800",
+                        color: coalation["color"],
+                      }}
+                    >
+                      Evaluation points
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontWeight: "bold",
+                        marginTop: 5,
+                      }}
+                    >
+                      {data.user?.correction_point}
+                    </Text>
+                  </View>
+                  <View style={{ alignItems: "center" }}>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        fontWeight: "800",
+                        color: coalation["color"],
+                      }}
+                    >
+                      Grade
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontWeight: "bold",
+                        marginTop: 5,
+                      }}
+                    >
+                      {data?.grade}
+                    </Text>
+                  </View>
+                </View>
+                <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                  {data.user?.email}
+                </Text>
+                <View
+                  style={{
+                    alignItems: "center",
+                  }}
+                >
+                  {data.user?.location ? (
+                    <Text style={{ fontWeight: "bold", fontSize: 25 }}>
+                      Available
+                    </Text>
+                  ) : (
+                    <Text style={{ fontWeight: "bold", fontSize: 25 }}>
+                      unavailable
+                    </Text>
+                  )}
+                  {data.user?.location ? (
+                    <Text style={{ fontWeight: "bold", fontSize: 25 }}>
+                      {data.user?.location}
+                    </Text>
+                  ) : (
+                    <Text style={{ fontWeight: "bold", fontSize: 25 }}>-</Text>
+                  )}
+                </View>
+                <Text style={{ fontSize: 17, fontWeight: "bold" }}>
+                  {Moment(data.user?.anonymize_date).format("YYYY-MM-DD")}
+                </Text>
+                <View
+                  style={{
+                    width: "100%",
+                    height: 45,
+                    backgroundColor: "rgba(32, 32, 38, 0.75)",
+                    borderRadius: 10,
+                    position: "relative",
+                    justifyContent: "center",
+                  }}
+                >
+                  <View
+                    style={{
+                      width: `${level}%`,
+                      backgroundColor: coalation["color"],
+                      height: "100%",
+                      borderBottomLeftRadius: 10,
+                      borderTopLeftRadius: 10,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  ></View>
+                  <Text
+                    style={{
+                      position: "absolute",
+                      width: "100%",
+                      textAlign: "center",
+                      color: "white",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    level {data?.level} %
+                  </Text>
+                </View>
+              </View>
+            </UserCard>
+          )
+        ) : (
+          <Text onLoad={() => clearDataStates()}>null</Text>
         )}
       </View>
     </SafeAreaView>
