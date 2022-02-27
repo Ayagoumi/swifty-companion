@@ -17,7 +17,7 @@ export default function SearchBar({ setLogin, clicked, setClicked }) {
           <TextInput
             style={{
               position: "relative",
-              height: 55,
+              height: 50,
               width: "100%",
               borderRadius: 15,
               backgroundColor: "#fff",
@@ -33,7 +33,7 @@ export default function SearchBar({ setLogin, clicked, setClicked }) {
             autoCorrect={false}
             value={text}
             maxLength={30}
-            submitAndClear='auto'
+            submitAndClear="auto"
           />
         </View>
         <Pressable
@@ -49,8 +49,8 @@ export default function SearchBar({ setLogin, clicked, setClicked }) {
             setLogin(text);
             Keyboard.dismiss();
             setClicked(true);
-            console.log(clicked);
           }}
+          disabled={text === ""}
         >
           <Text
             style={{
