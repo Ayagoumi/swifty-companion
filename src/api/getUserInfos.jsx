@@ -13,6 +13,7 @@ export const AccessToken = () => {
         client_secret: CLIENT_SECRET,
       })
       .then((res) => {
+        console.log(res.data);
         resolve(res.data);
       })
       .catch((err) => {
@@ -77,10 +78,10 @@ export const userData = (token, login) => {
               ? res.data.titles[0].name
               : null
             : null,
-          status: res.status,
-          achievements: res.data.achievements ? res.data.achievements : [],
-          projects_users: res.data.projects_users ? res.data.projects_users : [],
-          cursus_users: res.data.cursus_users ? res.data.cursus_users : [],
+          // status: res.status,
+          // achievements: res.data.achievements ? res.data.achievements : [],
+          // projects_users: res.data.projects_users ? res.data.projects_users : [],
+          // cursus_users: res.data.cursus_users ? res.data.cursus_users : [],
         };
         // console.log("----------------DATA----------------");
         // console.log("data",data);

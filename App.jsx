@@ -10,26 +10,18 @@ import { getUserInfo } from "./src/api/getUserInfos";
 function HomeScreen({ navigation }) {
   const [data, setData] = useState(null);
   const [login, setLogin] = useState("");
-  const [clicked, setClicked] = useState(false);
-  const [status, setStatus] = useState(0);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getData = () => {
       getUserInfo(login.toLowerCase())
         .then((res) => {
           setData(res);
-          setStatus(res.status);
-          setLoading(false);
         })
         .catch((err) => {
           console.log(err);
-          setStatus(err);
-          setLoading(false);
         });
     };
     if (login && login !== "") getData();
-    else setLoading(true);
   }, [login]);
 
   return (
@@ -37,7 +29,7 @@ function HomeScreen({ navigation }) {
       style={{
         flex: 1,
         flexDirection: "row",
-        backgroundColor: "#f7f2f2",
+        backgroundColor: "#FFFAF8",
       }}
     >
       <View
@@ -49,12 +41,15 @@ function HomeScreen({ navigation }) {
         }}
       >
         <Navbar />
-        <SearchBar
-          style="auto"
-          setLogin={setLogin}
-          clicked={clicked}
-          setClicked={setClicked}
-        />
+        <View
+          style={{
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 30 }}>Swifty Compation</Text>
+          <Text style={{ fontSize: 20 }}>&nbsp;&nbsp;using login</Text>
+        </View>
+        <SearchBar style="auto" setLogin={setLogin} />
         <View
           style={{
             marginBottom: 25,
@@ -63,14 +58,15 @@ function HomeScreen({ navigation }) {
             backgroundColor: "white",
             width: "100%",
             borderRadius: 15,
+            shadowColor: "rgb(0 0 0 / 0.25)",
+            shadowOffset: {
+              width: 1,
+              height: 1,
+            },
+            shadowOpacity: 0.1,
+            shadowRadius: 15,
           }}
-        >
-          {/* {data && status === 200 ? (
-            <Text>Found</Text>
-          ) : status !== 200 ? (
-            <Text>Not Found</Text>
-          ) : <Text>Loading</Text>} */}
-        </View>
+        ></View>
       </View>
     </SafeAreaView>
   );
