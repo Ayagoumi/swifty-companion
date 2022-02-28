@@ -29,8 +29,11 @@ export default function Navbar() {
             alignItems: "center",
           }}
         >
-          {/* <Icon name="sun" size={23} color="black" /> */}
-          <Icon name="moon" size={23} color="black" />
+          {darkMode ? (
+            <Icon name="sun" size={23} color="black" />
+          ) : (
+            <Icon name="moon" size={23} color="black" />
+          )}
         </View>
       </TouchableOpacity>
     </View>
