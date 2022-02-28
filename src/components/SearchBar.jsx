@@ -1,7 +1,7 @@
 import { Text, View, TextInput, Pressable, Keyboard } from "react-native";
 import React, { useState } from "react";
 
-export default function SearchBar({ setLogin }) {
+export default function SearchBar({ setLogin, getUserData, setLoading }) {
   const [text, onChangeText] = useState("");
 
   return (
@@ -23,6 +23,10 @@ export default function SearchBar({ setLogin }) {
               backgroundColor: "#fff",
               paddingHorizontal: 30,
               fontSize: 17,
+              shadowColor: "#000",
+              shadowOffset: { width: 1, height: 1 },
+              shadowOpacity: 0.1,
+              shadowRadius: 15,
             }}
             onChangeText={onChangeText}
             onFocus={() => {
@@ -47,7 +51,9 @@ export default function SearchBar({ setLogin }) {
           onPress={() => {
             setLogin(text);
             Keyboard.dismiss();
-            console.log("clicked");
+            // console.log("clicked");
+            getUserData(text);
+            setLoading(true);
           }}
           disabled={text === ""}
         >

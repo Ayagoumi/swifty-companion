@@ -13,8 +13,30 @@ export const AccessToken = () => {
         client_secret: CLIENT_SECRET,
       })
       .then((res) => {
-        console.log(res.data);
         resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err.response.status);
+      });
+  });
+};
+
+export default AccessTokenInfo = (token) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get("https://api.intra.42.fr/oauth/token/info", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res.data.expires_in_seconds > 0) resolve(res.data);
+        else {
+          alert("refetching token");
+          AccessToken().then((res) => {
+            resolve(res);
+          });
+        }
       })
       .catch((err) => {
         reject(err.response.status);
@@ -48,7 +70,7 @@ export const userCoalition = (id) => {
 export const userData = (token, login) => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${USER_ENDPOINT}${login}`, {
+      .get(`${USER_ENDPOINT}${login.toLowerCase()}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -59,14 +81,20 @@ export const userData = (token, login) => {
           login: res.data.login ? res.data.login : null,
           name: res.data.displayname ? res.data.displayname : null,
           staff: res.data["staff?"] ? res.data["staff?"] : false,
-          correction_points: res.data.correction_points ? res.data.correction_points : 0,
+          correction_points: res.data.correction_points
+            ? res.data.correction_points
+            : 0,
           poolMonth: res.data.pool_month ? res.data.pool_month : 0,
           poolYear: res.data.pool_year ? res.data.pool_year : 0,
           location: res.data.location ? res.data.location : null,
-          anonymize_date: res.data.anonymize_date ? res.data.anonymize_date : null,
+          anonymize_date: res.data.anonymize_date
+            ? res.data.anonymize_date
+            : null,
           alumni: res.data.alumni ? res.data.alumni : false,
           wallet: res.data.wallet ? res.data.wallet : 0,
-          isLaunched: res.data["is_launched?"] ? res.data["is_launched?"] : false,
+          isLaunched: res.data["is_launched?"]
+            ? res.data["is_launched?"]
+            : false,
           image_url: res.data.image_url ? res.data.image_url : null,
           campus: res.data.campus[res.data.campus.length - 1]
             ? res.data.campus[res.data.campus.length - 1].name
@@ -78,7 +106,7 @@ export const userData = (token, login) => {
               ? res.data.titles[0].name
               : null
             : null,
-          // status: res.status,
+          status: res.status,
           // achievements: res.data.achievements ? res.data.achievements : [],
           // projects_users: res.data.projects_users ? res.data.projects_users : [],
           // cursus_users: res.data.cursus_users ? res.data.cursus_users : [],
@@ -89,17 +117,18 @@ export const userData = (token, login) => {
         resolve(data);
       })
       .catch((err) => {
+        alert(`User ${login} not found`);
         reject(err.response.status);
       });
   });
 };
 
-export const getUserInfo = (login) => {
+export const getUserInfo = (token, timeLeft, login) => {
   return new Promise((resolve, reject) => {
-    AccessToken()
+    AccessTokenInfo(token)
       .then((res) => {
-        const token = res.access_token;
-        userData(token, login)
+        const accessToken = res.access_token;
+        userData(accessToken, login)
           .then((userData) => {
             const b = { ...userData } ? { ...userData } : {};
             userCoalition(userData.id)

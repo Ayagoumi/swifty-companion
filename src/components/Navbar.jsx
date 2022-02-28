@@ -1,31 +1,38 @@
-import { Text, View, StyleSheet, Image } from "react-native";
+import { useState } from "react";
+import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from "react-native-vector-icons/Feather";
 
 export default function Navbar() {
+  const [darkMode, setDarkMode] = useState(false);
+
   return (
     <View style={styles.navbar}>
-      <Image
-        style={{ width: 60, height: 33 }}
-        source={require("../../assets/42.png")}
-      />
-      <View
-        style={{
-          backgroundColor: "#fff",
-          width: 50,
-          height: 50,
-          borderRadius: 15,
-          shadowColor: "rgb(0 0 0 / 0.25)",
-          shadowOffset: {
-            width: 1,
-            height: 1,
-          },
-          shadowOpacity: 0.1,
-          shadowRadius: 15,
+      <Image style={styles.logo} source={require("../../assets/42.png")} />
+      <TouchableOpacity
+        onPress={() => {
+          setDarkMode(!darkMode);
+          console.log(darkMode);
         }}
       >
-        <Icon name="sun" size={20} color="black" />
-      </View>
+        <View
+          style={{
+            backgroundColor: "#fff",
+            width: 50,
+            height: 50,
+            borderRadius: 15,
+            shadowColor: "#000",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.1,
+            shadowRadius: 15,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {/* <Icon name="sun" size={23} color="black" /> */}
+          <Icon name="moon" size={23} color="black" />
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -37,5 +44,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     height: 60,
+  },
+  logo: { width: 60, height: 33 },
+  darkMode: {
+    backgroundColor: "#fff",
+    width: 50,
+    height: 50,
+    borderRadius: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 15,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
