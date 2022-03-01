@@ -1,6 +1,5 @@
-// import { AccessToken } from "./access_token";
 import { USER_ENDPOINT } from "@env";
-import { TOKEN_ENDPOINT, CLIENT_ID, CLIENT_SECRET } from "@env";
+import { TOKEN_ENDPOINT, CLIENT_ID, CLIENT_SECRET, TOKEN_ENDPOINT_INFOS } from "@env";
 import axios from "axios";
 
 export const AccessToken = () => {
@@ -24,21 +23,23 @@ export const AccessToken = () => {
 export default AccessTokenInfo = (token) => {
   return new Promise((resolve, reject) => {
     axios
-      .get("https://api.intra.42.fr/oauth/token/info", {
+      .get(`${TOKEN_ENDPOINT_INFOS}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        if (res.data.expires_in_seconds > 0) resolve(res.data);
+        if (res.data.expires_in_seconds > 0) resolve(token);
         else {
           alert("refetching token");
           AccessToken().then((res) => {
-            resolve(res);
+            console.log(res);
+            resolve(res.access_token);
           });
         }
       })
       .catch((err) => {
+        console.log(token);
         reject(err.response.status);
       });
   });
@@ -107,13 +108,12 @@ export const userData = (token, login) => {
               : null
             : null,
           status: res.status,
-          // achievements: res.data.achievements ? res.data.achievements : [],
-          // projects_users: res.data.projects_users ? res.data.projects_users : [],
-          // cursus_users: res.data.cursus_users ? res.data.cursus_users : [],
+          achievements: res.data.achievements ? res.data.achievements : [],
+          projects_users: res.data.projects_users
+            ? res.data.projects_users
+            : [],
+          cursus_users: res.data.cursus_users ? res.data.cursus_users : [],
         };
-        // console.log("----------------DATA----------------");
-        // console.log("data",data);
-        // console.log("----------------DATA----------------");
         resolve(data);
       })
       .catch((err) => {
@@ -123,12 +123,11 @@ export const userData = (token, login) => {
   });
 };
 
-export const getUserInfo = (token, timeLeft, login) => {
+export const getUserInfo = (token, login) => {
   return new Promise((resolve, reject) => {
     AccessTokenInfo(token)
       .then((res) => {
-        const accessToken = res.access_token;
-        userData(accessToken, login)
+        userData(res, login)
           .then((userData) => {
             const b = { ...userData } ? { ...userData } : {};
             userCoalition(userData.id)
