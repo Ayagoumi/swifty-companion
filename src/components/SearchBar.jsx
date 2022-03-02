@@ -40,14 +40,14 @@ export default function SearchBar({ getUserData, setLoading, loading }) {
               position: "relative",
               height: 50,
               width: "100%",
-              borderRadius: 15,
+              borderRadius: 12,
               backgroundColor: "#fff",
               paddingHorizontal: 30,
               fontSize: 17,
               shadowColor: "#000",
               shadowOffset: { width: 1, height: 1 },
               shadowOpacity: 0.1,
-              shadowRadius: 15,
+              shadowRadius: 12,
             }}
             onChangeText={onChangeText}
             onFocus={() => {
@@ -65,7 +65,7 @@ export default function SearchBar({ getUserData, setLoading, loading }) {
             alignItems: "center",
             justifyContent: "center",
             paddingHorizontal: 15,
-            borderRadius: 15,
+            borderRadius: 12,
             backgroundColor: "black",
             marginLeft: 7,
           }}

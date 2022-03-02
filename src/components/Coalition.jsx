@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Fragment } from "react-native";
 import { SvgCssUri } from "react-native-svg";
 
 export default function Coalition({ color, name, imageURL }) {
@@ -11,7 +11,7 @@ export default function Coalition({ color, name, imageURL }) {
         uri={imageURL}
         fill="#fff"
       />
-      <Text style={(styles.coalName, { color: color, marginLeft: 10, })}>{name}</Text>
+      <Text style={{ color: color, fontSize: 16, marginLeft: 5, fontWeight: "bold", }}>{name}</Text>
     </View>
   );
 }
@@ -19,14 +19,6 @@ export default function Coalition({ color, name, imageURL }) {
 const styles = StyleSheet.create({
   banner: {
     flexDirection: "row",
-    marginBottom: 25,
     alignItems: "center",
-  },
-  coalName: {
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 16,
-    paddingTop: 6,
-    // marginLeft: 5,
   },
 });

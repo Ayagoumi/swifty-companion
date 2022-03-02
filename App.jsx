@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from "expo-status-bar";
 import HomeScreen from "./src/components/Home";
+import AuthPage from "./src/components/AuthPage";
 
 function ModalScreen({ navigation }) {
   return (

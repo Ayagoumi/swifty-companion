@@ -85,7 +85,7 @@ export const userData = (token, login) => {
           login: res.data.login ? res.data.login : null,
           name: res.data.displayname ? res.data.displayname : null,
           staff: res.data["staff?"] ? res.data["staff?"] : false,
-          correction_points: res.data.correction_points ? res.data.correction_points : 0,
+          correction_points: res.data.correction_point ? res.data.correction_point : 0,
           poolMonth: res.data.pool_month ? res.data.pool_month : 0,
           poolYear: res.data.pool_year ? res.data.pool_year : 0,
           location: res.data.location ? res.data.location : null,
@@ -99,7 +99,7 @@ export const userData = (token, login) => {
           status: res.status,
           // achievements: res.data.achievements ? res.data.achievements : [],
           // projects_users: res.data.projects_users ? res.data.projects_users : [],
-          // cursus_users: res.data.cursus_users ? res.data.cursus_users : [],
+          cursus_users: res.data.cursus_users ? res.data.cursus_users : [],
         };
         resolve(data);
       })

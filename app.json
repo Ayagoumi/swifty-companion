@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
-    "scheme": "mycoolredirect",
+    "scheme": "swifty-companion",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
