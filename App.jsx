@@ -42,7 +42,7 @@ function App() {
         <RootStack.Group
           screenOptions={{
             presentation: "modal",
-            headerShown: false,
+            // headerShown: false,
           }}
         >
           <RootStack.Screen name="MyModal" component={ModalScreen} />

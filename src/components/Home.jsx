@@ -1,6 +1,6 @@
 import { Campus } from "./Campus";
 import { useState, useEffect } from "react";
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
 import Navbar from "./Navbar";
 import SearchBar from "./SearchBar";
 import { getUserInfo } from "../api/getUserInfos";
@@ -83,12 +83,14 @@ export default function HomeScreen({ navigation }) {
         }}
       >
         {loading === true ? (
-          <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
             <ActivityIndicator size="large" />
-            <Text>Loading...</Text>
           </View>
         ) : status === 200 ? (
           <View style={{ width: "100%", flex: 1 }}>
+            <TouchableOpacity onPress={() => navigation.navigate("MyModal")}>
             {data && (
               <View style={{ flex: 1 }}>
                 <CoalationView
@@ -250,6 +252,7 @@ export default function HomeScreen({ navigation }) {
                 </View>
               </View>
             )}
+            </TouchableOpacity>
           </View>
         ) : (
           status !== 0 && <Text style={{ fontSize: 20 }}> No data found</Text>
