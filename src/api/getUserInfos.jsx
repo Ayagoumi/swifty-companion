@@ -83,6 +83,7 @@ export const userData = (token, login) => {
         const data = {
           id: res.data.id ? res.data.id : null,
           login: res.data.login ? res.data.login : null,
+          email: res.data.email ? res.data.email : null,
           name: res.data.displayname ? res.data.displayname : null,
           staff: res.data["staff?"] ? res.data["staff?"] : false,
           correction_points: res.data.correction_point ? res.data.correction_point : 0,

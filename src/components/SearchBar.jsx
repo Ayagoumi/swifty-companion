@@ -1,25 +1,5 @@
-import { Text, View, TextInput, Pressable, Keyboard } from "react-native";
+import { Text, View, TextInput, Keyboard, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-
-/*
-  * ***********************************************************************
-  * SearchBar Component
-  * 
-  * This component is used to search for a specific user.
-  * 
-  * Props:
-  * - getUserData: Function to get the user data. 
-  * - setLoading: Function to set the loading state.
-  * - loading: Boolean to know if the loading state is active.
-  * 
-  * Methods:
-  * - onChangeText: function to be called when the user
-  * enters a new search term.
-  * - onPressSearch: function to be called when the user
-  * presses the search button.
-  * 
-  * ***********************************************************************
-*/
 
 export default function SearchBar({ getUserData, setLoading, loading }) {
   const [text, onChangeText] = useState("");
@@ -60,7 +40,7 @@ export default function SearchBar({ getUserData, setLoading, loading }) {
             submitAndClear="auto"
           />
         </View>
-        <Pressable
+        <TouchableOpacity
           style={{
             alignItems: "center",
             justifyContent: "center",
@@ -92,7 +72,7 @@ export default function SearchBar({ getUserData, setLoading, loading }) {
           >
             Search
           </Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );

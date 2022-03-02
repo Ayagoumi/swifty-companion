@@ -1,16 +1,15 @@
+import { Campus } from "./Campus";
 import { useState, useEffect } from "react";
-import { View, Text, SafeAreaView, ImageBackground } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import Navbar from "./Navbar";
 import SearchBar from "./SearchBar";
 import { getUserInfo } from "../api/getUserInfos";
 import { AccessToken } from "../api/getUserInfos";
 import Container from "./Container";
-import UserCard from "./UserCard";
-import { SvgCssUri } from "react-native-svg";
-import Coalition from "./Coalition";
-import Icon from "react-native-vector-icons/Feather";
 import DataText from "./DataText";
 import Moment from "moment";
+import CoalationView from "./CoalationView";
+import UserAvatar from "react-native-user-avatar";
 
 export default function HomeScreen({ navigation }) {
   const [data, setData] = useState(null);
@@ -46,7 +45,8 @@ export default function HomeScreen({ navigation }) {
     if (login && login !== "") getData();
   };
 
-  let level = data?.cursus_users[0]?.level?.toString();
+  let level =
+    data?.cursus_users[data?.cursus_users.length - 1]?.level?.toString();
   level = level?.split(".")[1];
 
   return (
@@ -79,71 +79,174 @@ export default function HomeScreen({ navigation }) {
           shadowOffset: { width: 1, height: 1 },
           shadowOpacity: 0.1,
           shadowRadius: 12,
-          minHeight: 500,
+          // minHeight: 500,
         }}
       >
         {loading === true ? (
-          <Text style={{ fontSize: 20 }}>loading ...</Text>
+          <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+            <ActivityIndicator size="large" />
+            <Text>Loading...</Text>
+          </View>
         ) : status === 200 ? (
-          <View style={{width: "100%", flex: 1}}>
+          <View style={{ width: "100%", flex: 1 }}>
             {data && (
-              <View style={{flex: 1,}}>
-                <ImageBackground source={data?.coalitions[0]?.cover_url ? {uri: `${data?.coalitions[0]?.cover_url}`} : require("../../assets/background.jpg")} resizeMode="cover" imageStyle= {{opacity:0.85}} style={{height: 110, justifyContent: "center", borderTopLeftRadius: 12, borderTopRightRadius: 12, overflow: "hidden",}}>
-                  <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: "100%", paddingHorizontal: 20,}}>
-                    {data.coalitions[0] ? (
-                      <Coalition
-                      coalition={data?.coalitions[0]}
-                      name={data?.coalitions[0]?.name}
+              <View style={{ flex: 1 }}>
+                <CoalationView
+                  coalitions={data?.coalitions[0]}
+                  cover_url={data?.coalitions[0]?.cover_url}
+                  name={data?.name}
+                  staff={data?.staff}
+                />
+                <View
+                  style={{
+                    width: "100%",
+                    alignItems: "center",
+                  }}
+                >
+                  <UserAvatar
+                    size={100}
+                    name={data?.name}
+                    src={data?.image_url}
+                    style={{ width: 100, height: 100, marginTop: 15 }}
+                    bgColor="white"
+                    textColor="white"
+                  />
+                </View>
+                <View
+                  style={{
+                    alignItems: "center",
+                    paddingVertical: 15,
+                    flex: 1,
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <View
+                    style={{
+                      backgroundColor: "rgba(32,32,38,0.75)",
+                      width: "85%",
+                      borderRadius: 12,
+                      paddingVertical: 30,
+                      paddingHorizontal: 15,
+                      marginBottom: 10,
+                      flex: 1,
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <DataText
+                      dataName={data?.wallet + " ₳"}
+                      text="Wallet"
                       color={data?.coalitions[0]?.color}
-                      imageURL={data?.coalitions[0]?.image_url}
+                    />
+                    <DataText
+                      dataName={data?.correction_points}
+                      text="Evaluation points"
+                      color={data?.coalitions[0]?.color}
+                    />
+                    {data?.cursus_users[data?.cursus_users.length - 1]?.cursus
+                      ?.name && (
+                      <DataText
+                        dataName={
+                          data?.cursus_users[data?.cursus_users.length - 1]
+                            ?.cursus?.name
+                        }
+                        text="Cursus"
+                        color={data?.coalitions[0]?.color}
                       />
-                    ): (<View style={{width:30, height:50, backgroundColor: "#00babc", justifyContent: "center", alignItems: "center",}}>
-                      <Icon name="zap" size={23} color="white" />
-                    </View>)}
-                    <Text numberOfLines={1} style={{color: "white", fontWeight: "bold"}}>
-                      <Text style={{fontSize: 12}}>{data.login}&nbsp;&nbsp;</Text>
-                      {data.name.length < 18 ? data.name : `${data.name.substring(0, 18)}...`}
-                    </Text>
-                  </View>
-                </ImageBackground>
-                <View style={{alignItems: "center", paddingVertical: 30, justifyContent: "space-between", flex: 1}}>
-                  <View style={{backgroundColor: "rgba(32,32,38,0.75)", width: "85%", borderRadius: 12, paddingVertical: 30, paddingHorizontal: 15}}>
-                    <DataText dataName={data?.name} text="Wallet" color={data?.coalitions[0]?.color} />
-                    <DataText dataName={data?.correction_points} text="Evaluation points" color={data?.coalitions[0]?.color} />
-                    <DataText dataName={data?.cursus_users ? data?.cursus_users[0]?.cursus?.name : "Novice"} text="Cursus" color={data?.coalitions[0]?.color} />
-                    <DataText dataName={data?.cursus ? data?.cursus : "Novice"} text="Grade" color={data?.coalitions[0]?.color} />
-                    {data.anonymize_date && <DataText dataName={Moment(data.anonymize_date).format("DD-MM-YYYY")} text="ETEC" color={data?.coalitions[0]?.color} />}
-                  </View>
-                  <View style={{width: "85%", height: 110, justifyContent: "center", backgroundColor: "rgba(32,32,38,0.75)", borderRadius: 12}}>
-                    <View style={{alignItems: "center"}}>
-                      <Text style={{fontSize: 25, color: "white", fontWeight: "700" }}>{data.location ? "Available" : "Unavailable"}</Text>
-                      <Text style={{fontSize: 25, color: "white", fontWeight: "500" }}>{data.location ? data.location : "-"}</Text>
+                    )}
+                    {data?.cursus_users[data?.cursus_users.length - 1]
+                      ?.grade && (
+                      <DataText
+                        dataName={
+                          data?.cursus_users[data?.cursus_users.length - 1]
+                            ?.grade
+                        }
+                        text="Grade"
+                        color={data?.coalitions[0]?.color}
+                      />
+                    )}
+                    {data.anonymize_date && (
+                      <DataText
+                        dataName={Moment(data.anonymize_date).format(
+                          "DD-MM-YYYY"
+                        )}
+                        text="ETEC"
+                        color={data?.coalitions[0]?.color}
+                      />
+                    )}
+                    <View style={{ alignItems: "center" }}>
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          color: "white",
+                          fontWeight: "700",
+                          color: data?.coalitions[0]?.color
+                            ? data.coalitions[0]?.color
+                            : "#00babc",
+                          paddingBottom: 10,
+                        }}
+                      >
+                        {data?.email}
+                      </Text>
+                      <Campus campus={data?.campus} />
+                      <Text
+                        style={{
+                          fontSize: 25,
+                          color: "white",
+                          fontWeight: "700",
+                        }}
+                      >
+                        {data.location ? "Available" : "Unavailable"}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 25,
+                          color: "white",
+                          fontWeight: "500",
+                        }}
+                      >
+                        {data.location ? data.location : "-"}
+                      </Text>
                     </View>
                   </View>
-                  <View style={{width: "85%", height: 50, justifyContent: "center", backgroundColor: "rgba(32,32,38,0.75)", borderRadius: 12}}>
+                  {data.staff === false && (
                     <View
                       style={{
-                        width: `${level}%`,
-                        backgroundColor: data?.coalitions[0]?.color,
-                        height: "100%",
-                        borderBottomLeftRadius: 10,
-                        borderTopLeftRadius: 10,
+                        width: "85%",
+                        height: 50,
                         justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    ></View>
-                    <Text
-                      style={{
-                        position: "absolute",
-                        width: "100%",
-                        textAlign: "center",
-                        color: "white",
-                        fontWeight: "bold",
+                        backgroundColor: "rgba(32,32,38,0.75)",
+                        borderRadius: 12,
                       }}
                     >
-                      {data?.cursus_users[0]?.level} %
-                    </Text>
-                  </View>
+                      <View
+                        style={{
+                          width: `${level}%`,
+                          backgroundColor: data?.coalitions[0]?.color,
+                          height: "100%",
+                          borderBottomLeftRadius: 10,
+                          borderTopLeftRadius: 10,
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      ></View>
+                      <Text
+                        style={{
+                          position: "absolute",
+                          width: "100%",
+                          textAlign: "center",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {data?.cursus_users[data?.cursus_users.length - 1]
+                          ?.level
+                          ? data?.cursus_users[data?.cursus_users.length - 1]
+                              ?.level
+                          : 0}
+                        &nbsp;%
+                      </Text>
+                    </View>
+                  )}
                 </View>
               </View>
             )}
@@ -155,22 +258,3 @@ export default function HomeScreen({ navigation }) {
     </Container>
   );
 }
-
-    function TextData({data, coalitions, color}) {
-      return (<View style={{
-  flexDirection: "row",
-  justifyContent: "space-between"
-}}>
-                    <Text style={{
-    fontSize: 15,
-    fontWeight: "bold",
-    color: data?.coalitions[0]?.color ? data?.coalitions[0]?.color : "#00babc"
-  }}>Wallet</Text>
-                    <Text style={{
-    fontSize: 15,
-    fontWeight: "bold",
-    color: "white"
-  }}>{data.name}</Text>
-                  </View>);
-    }
-  
