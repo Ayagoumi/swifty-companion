@@ -97,9 +97,9 @@ export const userData = (token, login) => {
           campus: res.data.campus[res.data.campus.length - 1] ? res.data.campus[res.data.campus.length - 1].name ? res.data.campus[res.data.campus.length - 1].name: null : null,
           titles: res.data.titles[0] ? res.data.titles[0].name ? res.data.titles[0].name : null : null,
           status: res.status,
-          achievements: res.data.achievements ? res.data.achievements : [],
-          projects_users: res.data.projects_users ? res.data.projects_users : [],
-          cursus_users: res.data.cursus_users ? res.data.cursus_users : [],
+          // achievements: res.data.achievements ? res.data.achievements : [],
+          // projects_users: res.data.projects_users ? res.data.projects_users : [],
+          // cursus_users: res.data.cursus_users ? res.data.cursus_users : [],
         };
         resolve(data);
       })

@@ -3,12 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from "expo-status-bar";
 import HomeScreen from "./src/components/Home";
-import * as WebBrowser from "expo-web-browser";
-import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
-import { useEffect } from "react";
-import { CLIENT_ID, CUSTOM_STATE } from "@env";
-import Container from "./src/components/Container";
-import * as Linking from 'expo-linking'
+
 function ModalScreen({ navigation }) {
   return (
     <View
@@ -25,58 +20,6 @@ function ModalScreen({ navigation }) {
   );
 }
 
-WebBrowser.maybeCompleteAuthSession();
-
-// Endpoint
-const config = {
-  authorizationEndpoint: "https://api.intra.42.fr/oauth/authorize",
-  tokenEndpoint: "https://api.intra.42.fr/oauth/v2/token",
-};
-
-function AuthUser({ navigation }) {
-  const [request, response, promptAsync] = useAuthRequest(
-    {
-      clientId: `${CLIENT_ID}`,
-      scopes: ["public"],
-      redirectUri: "http://localhost:19000",
-      state: `${CUSTOM_STATE}`,
-      responseType: "code",
-    },
-    config
-  );
-
-  useEffect(() => {
-    console.log(Linking.makeUrl());
-    if (
-      response?.type === "success" &&
-      response?.params?.state === `${CUSTOM_STATE}`
-    ) {
-      const { code } = response.params;
-      // console.log(response);
-    }
-  }, [response]);
-
-  return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: "#FFFAF8",
-      }}
-    >
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text style={{ fontSize: 30 }}>This is a modal!</Text>
-        <Button
-          disabled={!request}
-          title="Login"
-          onPress={() => {
-            promptAsync();
-          }}
-        />
-      </View>
-    </SafeAreaView>
-  );
-}
-
 const RootStack = createStackNavigator();
 
 function App() {
@@ -88,13 +31,6 @@ function App() {
         style={{ textColor: "black" }}
       />
       <RootStack.Navigator>
-        <RootStack.Group
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <RootStack.Screen name="Auth" component={AuthUser} />
-        </RootStack.Group>
         <RootStack.Group
           screenOptions={{
             headerShown: false,

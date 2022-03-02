@@ -5,6 +5,9 @@ import SearchBar from "./SearchBar";
 import { getUserInfo } from "../api/getUserInfos";
 import { AccessToken } from "../api/getUserInfos";
 import Container from "./Container";
+import UserCard from "./UserCard";
+import { SvgCssUri } from "react-native-svg";
+import Coalition from "./Coalition";
 
 export default function HomeScreen({ navigation }) {
   const [data, setData] = useState(null);
@@ -70,13 +73,29 @@ export default function HomeScreen({ navigation }) {
           shadowOffset: { width: 1, height: 1 },
           shadowOpacity: 0.1,
           shadowRadius: 15,
-          // minHeight: 500,
+          minHeight: 500,
+          // paddingHorizontal: 20,
+          // paddingVertical: 20,
+          // justifyContent: "center",
+          // alignItems: "center",
         }}
       >
         {loading === true ? (
-          <Text>loading ...</Text>
+          <Text style={{ fontSize: 20 }}>loading ...</Text>
         ) : status === 200 ? (
-          <Text style={{ fontSize: 20 }}> Found </Text>
+          <View>
+            {data && (
+              <View>
+                {data.coalitions[0] && (
+                  <Coalition
+                    name={data?.coalitions[0]?.name}
+                    color={data?.coalitions[0]?.color}
+                    imageURL={data?.coalitions[0]?.image_url}
+                  />
+                )}
+              </View>
+            )}
+          </View>
         ) : (
           status !== 0 && <Text style={{ fontSize: 20 }}> No data found</Text>
         )}
