@@ -10,6 +10,7 @@ import DataText from "./DataText";
 import Moment from "moment";
 import CoalationView from "./CoalationView";
 import UserAvatar from "react-native-user-avatar";
+import Icon from "react-native-vector-icons/Feather";
 
 export default function HomeScreen({ navigation }) {
   const [data, setData] = useState(null);
@@ -79,7 +80,6 @@ export default function HomeScreen({ navigation }) {
           shadowOffset: { width: 1, height: 1 },
           shadowOpacity: 0.1,
           shadowRadius: 12,
-          // minHeight: 500,
         }}
       >
         {loading === true ? (
@@ -90,169 +90,193 @@ export default function HomeScreen({ navigation }) {
           </View>
         ) : status === 200 ? (
           <View style={{ width: "100%", flex: 1 }}>
-            <TouchableOpacity onPress={() => navigation.navigate("MyModal")}>
-            {data && (
-              <View style={{ flex: 1 }}>
-                <CoalationView
-                  coalitions={data?.coalitions[0]}
-                  cover_url={data?.coalitions[0]?.cover_url}
-                  name={data?.name}
-                  staff={data?.staff}
-                />
-                <View
-                  style={{
-                    width: "100%",
-                    alignItems: "center",
-                  }}
-                >
-                  <UserAvatar
-                    size={100}
+            <View>
+              {data && (
+                <View style={{ flex: 1 }}>
+                  <CoalationView
+                    coalitions={data?.coalitions[0]}
+                    cover_url={data?.coalitions[0]?.cover_url}
                     name={data?.name}
-                    src={data?.image_url}
-                    style={{ width: 100, height: 100, marginTop: 15 }}
-                    bgColor="white"
-                    textColor="white"
+                    staff={data?.staff}
                   />
-                </View>
-                <View
-                  style={{
-                    alignItems: "center",
-                    paddingVertical: 15,
-                    flex: 1,
-                    justifyContent: "space-between",
-                  }}
-                >
                   <View
                     style={{
-                      backgroundColor: "rgba(32,32,38,0.75)",
-                      width: "85%",
-                      borderRadius: 12,
-                      paddingVertical: 30,
-                      paddingHorizontal: 15,
-                      marginBottom: 10,
+                      width: "100%",
+                      alignItems: "center",
+                    }}
+                  >
+                    <UserAvatar
+                      size={100}
+                      name={data?.name}
+                      src={data?.image_url}
+                      style={{ width: 100, height: 100, marginTop: 15 }}
+                      bgColor="white"
+                      textColor="white"
+                    />
+                    <TouchableOpacity
+                      style={{
+                        width: 40,
+                        backgroundColor: "red",
+                        height: 40,
+                        position: "absolute",
+                        right: 30,
+                        top: 10,
+                        borderRadius: 12,
+                        backgroundColor: "#fff",
+                        width: 50,
+                        height: 50,
+                        borderRadius: 15,
+                        shadowColor: "#000",
+                        shadowOffset: { width: 1, height: 1 },
+                        shadowOpacity: 0.1,
+                        shadowRadius: 15,
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      onPress={() => navigation.navigate("MyModal")}
+                    >
+                      <Icon name="user" size={22} />
+                    </TouchableOpacity>
+                  </View>
+                  <View
+                    style={{
+                      alignItems: "center",
+                      paddingVertical: 15,
                       flex: 1,
                       justifyContent: "space-between",
                     }}
                   >
-                    <DataText
-                      dataName={data?.wallet + " ₳"}
-                      text="Wallet"
-                      color={data?.coalitions[0]?.color}
-                    />
-                    <DataText
-                      dataName={data?.correction_points}
-                      text="Evaluation points"
-                      color={data?.coalitions[0]?.color}
-                    />
-                    {data?.cursus_users[data?.cursus_users.length - 1]?.cursus
-                      ?.name && (
-                      <DataText
-                        dataName={
-                          data?.cursus_users[data?.cursus_users.length - 1]
-                            ?.cursus?.name
-                        }
-                        text="Cursus"
-                        color={data?.coalitions[0]?.color}
-                      />
-                    )}
-                    {data?.cursus_users[data?.cursus_users.length - 1]
-                      ?.grade && (
-                      <DataText
-                        dataName={
-                          data?.cursus_users[data?.cursus_users.length - 1]
-                            ?.grade
-                        }
-                        text="Grade"
-                        color={data?.coalitions[0]?.color}
-                      />
-                    )}
-                    {data.anonymize_date && (
-                      <DataText
-                        dataName={Moment(data.anonymize_date).format(
-                          "DD-MM-YYYY"
-                        )}
-                        text="ETEC"
-                        color={data?.coalitions[0]?.color}
-                      />
-                    )}
-                    <View style={{ alignItems: "center" }}>
-                      <Text
-                        style={{
-                          fontSize: 14,
-                          color: "white",
-                          fontWeight: "700",
-                          color: data?.coalitions[0]?.color
-                            ? data.coalitions[0]?.color
-                            : "#00babc",
-                          paddingBottom: 10,
-                        }}
-                      >
-                        {data?.email}
-                      </Text>
-                      <Campus campus={data?.campus} />
-                      <Text
-                        style={{
-                          fontSize: 25,
-                          color: "white",
-                          fontWeight: "700",
-                        }}
-                      >
-                        {data.location ? "Available" : "Unavailable"}
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: 25,
-                          color: "white",
-                          fontWeight: "500",
-                        }}
-                      >
-                        {data.location ? data.location : "-"}
-                      </Text>
-                    </View>
-                  </View>
-                  {data.staff === false && (
                     <View
                       style={{
-                        width: "85%",
-                        height: 50,
-                        justifyContent: "center",
                         backgroundColor: "rgba(32,32,38,0.75)",
+                        width: "85%",
                         borderRadius: 12,
+                        paddingVertical: 20,
+                        paddingHorizontal: 15,
+                        marginBottom: 10,
+                        flex: 1,
+                        justifyContent: "space-between",
                       }}
                     >
+                      <DataText
+                        dataName={data?.wallet + " ₳"}
+                        text="Wallet"
+                        color={data?.coalitions[0]?.color}
+                      />
+                      <DataText
+                        dataName={data?.correction_points}
+                        text="Evaluation points"
+                        color={data?.coalitions[0]?.color}
+                      />
+                      {data?.cursus_users[data?.cursus_users.length - 1]?.cursus
+                        ?.name && (
+                        <DataText
+                          dataName={
+                            data?.cursus_users[data?.cursus_users.length - 1]
+                              ?.cursus?.name
+                          }
+                          text="Cursus"
+                          color={data?.coalitions[0]?.color}
+                        />
+                      )}
+                      {data?.cursus_users[data?.cursus_users.length - 1]
+                        ?.grade && (
+                        <DataText
+                          dataName={
+                            data?.cursus_users[data?.cursus_users.length - 1]
+                              ?.grade
+                          }
+                          text="Grade"
+                          color={data?.coalitions[0]?.color}
+                        />
+                      )}
+                      {data.anonymize_date && (
+                        <DataText
+                          dataName={Moment(data.anonymize_date).format(
+                            "DD-MM-YYYY"
+                          )}
+                          text="ETEC"
+                          color={data?.coalitions[0]?.color}
+                        />
+                      )}
+                      <View style={{ alignItems: "center" }}>
+                        <Text
+                          style={{
+                            fontSize: 14,
+                            color: "white",
+                            fontWeight: "700",
+                            color: data?.coalitions[0]?.color
+                              ? data.coalitions[0]?.color
+                              : "#00babc",
+                            paddingBottom: 10,
+                          }}
+                        >
+                          {data?.email}
+                        </Text>
+                        <Campus campus={data?.campus} />
+                        <Text
+                          style={{
+                            fontSize: 25,
+                            color: "white",
+                            fontWeight: "700",
+                          }}
+                        >
+                          {data.location ? "Available" : "Unavailable"}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 25,
+                            color: "white",
+                            fontWeight: "500",
+                          }}
+                        >
+                          {data.location ? data.location : "-"}
+                        </Text>
+                      </View>
+                    </View>
+                    {data.staff === false && (
                       <View
                         style={{
-                          width: `${level}%`,
-                          backgroundColor: data?.coalitions[0]?.color,
-                          height: "100%",
-                          borderBottomLeftRadius: 10,
-                          borderTopLeftRadius: 10,
+                          width: "85%",
+                          height: 50,
                           justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      ></View>
-                      <Text
-                        style={{
-                          position: "absolute",
-                          width: "100%",
-                          textAlign: "center",
-                          color: "white",
-                          fontWeight: "bold",
+                          backgroundColor: "rgba(32,32,38,0.75)",
+                          borderRadius: 12,
                         }}
                       >
-                        {data?.cursus_users[data?.cursus_users.length - 1]
-                          ?.level
-                          ? data?.cursus_users[data?.cursus_users.length - 1]
-                              ?.level
-                          : 0}
-                        &nbsp;%
-                      </Text>
-                    </View>
-                  )}
+                        <View
+                          style={{
+                            width: `${level}%`,
+                            backgroundColor: data?.coalitions[0]?.color,
+                            height: "100%",
+                            borderBottomLeftRadius: 10,
+                            borderTopLeftRadius: 10,
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        ></View>
+                        <Text
+                          style={{
+                            position: "absolute",
+                            width: "100%",
+                            textAlign: "center",
+                            color: "white",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {data?.cursus_users[data?.cursus_users.length - 1]
+                            ?.level
+                            ? data?.cursus_users[data?.cursus_users.length - 1]
+                                ?.level
+                            : 0}
+                          &nbsp;%
+                        </Text>
+                      </View>
+                    )}
+                  </View>
                 </View>
-              </View>
-            )}
-            </TouchableOpacity>
+              )}
+            </View>
           </View>
         ) : (
           status !== 0 && <Text style={{ fontSize: 20 }}> No data found</Text>

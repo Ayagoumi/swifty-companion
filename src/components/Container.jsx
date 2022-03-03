@@ -1,12 +1,6 @@
 import { useState } from "react";
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  SafeAreaView,
-  Dimensions,
-} from "react-native";
+import { ScrollView, SafeAreaView, Dimensions } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -17,7 +11,8 @@ export default function Container({ children }) {
     setScreenHeight(contentHeight);
   };
 
-  const scrollEnabled = screenHeight > windowHeight;
+  const insets = useSafeAreaInsets();
+  let scrollEnabled = screenHeight > windowHeight - insets.top - insets.bottom;
 
   return (
     <SafeAreaView
