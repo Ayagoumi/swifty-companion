@@ -25,7 +25,7 @@ export default function Avatar({ data, name, image_url }) {
       size={100}
       name={name}
       src={
-        imageStatus === 200
+        imageStatus === 200 && image_url
           ? image_url
           : "https://cdn.intra.42.fr/users/default.png"
       }
