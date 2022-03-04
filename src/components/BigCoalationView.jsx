@@ -6,6 +6,7 @@ import DataText from "./DataText";
 import Moment from "moment";
 import SelectDropdown from "react-native-select-dropdown";
 import Icon from "react-native-vector-icons/Feather";
+import Student from "./Student";
 
 export default function BigCoalationView({
   cover_url,
@@ -14,12 +15,13 @@ export default function BigCoalationView({
   data,
   setProjects,
   setLoading,
+  selected,
+  setSelected,
 }) {
   const [imageStatus, setImageStatus] = useState(404);
   const [items, setItems] = useState([]);
   const [cursusId, setCursusId] = useState(0);
   const [level, setLevel] = useState(0);
-  const [selected, setSelected] = useState(0);
   const name = data?.name;
   const staff = data?.staff;
   const image_url = data?.image_url;
@@ -97,7 +99,7 @@ export default function BigCoalationView({
       }}
       style={bgstyle}
     >
-      {LoginPhotoBanner(login, Bgcolor, name, imageStatus, image_url)}
+      {LoginPhotoBanner(login, Bgcolor, name, imageStatus, image_url, staff)}
       <View
         style={{
           width: "100%",
@@ -199,15 +201,15 @@ export default function BigCoalationView({
             color={data?.coalitions[selected]?.color}
           />
         )}
-        {data.anonymize_date && (
+        {data?.anonymize_date && (
           <DataText
-            dataName={Moment(data.anonymize_date).format("DD-MM-YYYY")}
+            dataName={Moment(data?.anonymize_date).format("DD-MM-YYYY")}
             text="ETEC"
             color={data?.coalitions[selected]?.color}
           />
         )}
       </View>
-      {data.staff === false && LevelComponent(level, Bgcolor, data, selected)}
+      {data?.staff === false && LevelComponent(level, Bgcolor, data, selected)}
     </ImageBackground>
   );
 }
@@ -252,7 +254,7 @@ function LevelComponent(level, Bgcolor, data, selected) {
   );
 }
 
-function LoginPhotoBanner(login, Bgcolor, name, imageStatus, image_url) {
+function LoginPhotoBanner(login, Bgcolor, name, imageStatus, image_url, staff) {
   return (
     <View
       style={{
@@ -276,6 +278,7 @@ function LoginPhotoBanner(login, Bgcolor, name, imageStatus, image_url) {
       >
         {login}
       </Text>
+      <Student staff={staff} color={Bgcolor} />
       <View
         style={{
           backgroundColor: Bgcolor,

@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { View, Text, ActivityIndicator, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import Navbar from "./Navbar";
 import SearchBar from "./SearchBar";
 import { getUserInfo } from "../api/getUserInfos";
@@ -128,7 +134,10 @@ export default function HomeScreen({ navigation }) {
                     onPress={() =>
                       navigation.navigate({
                         name: "MyModal",
-                        params: { userData: data, coalitions: data?.coalitions },
+                        params: {
+                          userData: data,
+                          coalitions: data?.coalitions,
+                        },
                         merge: true,
                       })
                     }
@@ -188,9 +197,9 @@ export default function HomeScreen({ navigation }) {
                         color={data?.coalitions[0]?.color}
                       />
                     )}
-                    {data.anonymize_date && (
+                    {data?.anonymize_date && (
                       <DataText
-                        dataName={Moment(data.anonymize_date).format(
+                        dataName={Moment(data?.anonymize_date).format(
                           "DD-MM-YYYY"
                         )}
                         text="ETEC"
@@ -204,7 +213,7 @@ export default function HomeScreen({ navigation }) {
                           color: "white",
                           fontWeight: "700",
                           color: data?.coalitions[0]?.color
-                            ? data.coalitions[0]?.color
+                            ? data?.coalitions[0]?.color
                             : "#00babc",
                           paddingBottom: 10,
                         }}
@@ -219,7 +228,7 @@ export default function HomeScreen({ navigation }) {
                           fontWeight: "700",
                         }}
                       >
-                        {data.location ? "Available" : "Unavailable"}
+                        {data?.location ? "Available" : "Unavailable"}
                       </Text>
                       <Text
                         style={{
@@ -228,11 +237,11 @@ export default function HomeScreen({ navigation }) {
                           fontWeight: "500",
                         }}
                       >
-                        {data.location ? data.location : "-"}
+                        {data?.location ? data?.location : "-"}
                       </Text>
                     </View>
                   </View>
-                  {data.staff === false && (
+                  {data?.staff === false && (
                     <View
                       style={{
                         width: "85%",

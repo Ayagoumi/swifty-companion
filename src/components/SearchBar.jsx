@@ -58,7 +58,7 @@ export default function SearchBar({ getUserData, setLoading, loading }) {
               setOldValue(text);
             }
           }}
-          disabled={text === "" || loading === true}
+          disabled={text === "" || loading === true || text === oldValue}
         >
           <Text
             style={{
