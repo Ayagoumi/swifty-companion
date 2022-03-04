@@ -3,7 +3,13 @@ import Coalition from "./Coalition";
 import Icon from "react-native-vector-icons/Feather";
 import Student from "./Student";
 
-export default function CoalationView({ coalitions, cover_url, name, staff }) {
+export default function CoalationView({
+  coalitions,
+  cover_url,
+  name,
+  staff,
+  bgstyle,
+}) {
   return (
     <ImageBackground
       source={
@@ -15,13 +21,7 @@ export default function CoalationView({ coalitions, cover_url, name, staff }) {
       imageStyle={{
         opacity: 0.85,
       }}
-      style={{
-        height: 110,
-        justifyContent: "center",
-        borderTopLeftRadius: 12,
-        borderTopRightRadius: 12,
-        overflow: "hidden",
-      }}
+      style={bgstyle}
     >
       <View
         style={{
@@ -66,7 +66,7 @@ export default function CoalationView({ coalitions, cover_url, name, staff }) {
               marginBottom: 15,
             }}
           >
-            {name.length <= 20 ? name : `${name.substring(0, 20)}...`}
+            {name?.length <= 20 ? name : `${name.substring(0, 20)}...`}
           </Text>
           <Student color={coalitions?.color} staff={staff} />
         </View>

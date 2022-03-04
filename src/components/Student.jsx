@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 
 export default function Student({ staff, color }) {
   return (
@@ -12,14 +12,7 @@ export default function Student({ staff, color }) {
             borderRadius: 5,
           }}
         >
-          <Text
-            style={{
-              color: "white",
-              fontWeight: "bold",
-            }}
-          >
-            STUDENT
-          </Text>
+          <Text style={styles.staffText}>STUDENT</Text>
         </View>
       ) : (
         <View
@@ -29,15 +22,16 @@ export default function Student({ staff, color }) {
             borderRadius: 5,
           }}
         >
-          <Text
-            style={{
-              fontWeight: "bold",
-            }}
-          >
-            STAFF
-          </Text>
+          <Text style={styles.staffText}>STAFF</Text>
         </View>
       )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  staffText: {
+    fontWeight: "bold",
+    color: "white",
+  },
+});

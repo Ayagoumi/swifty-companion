@@ -7,9 +7,9 @@
     "icon": "./assets/icon.png",
     "scheme": "swifty-companion",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/42.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FFFAF8"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

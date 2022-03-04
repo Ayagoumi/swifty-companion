@@ -1,25 +1,9 @@
-import { View, Text, Button, SafeAreaView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from "expo-status-bar";
 import HomeScreen from "./src/components/Home";
+import ModalScreen from "./src/components/ModalScreen";
 import AuthPage from "./src/components/AuthPage";
-
-function ModalScreen({ navigation }) {
-  return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "#ff0000",
-      }}
-    >
-      <Text style={{ fontSize: 30 }}>This is a modal!</Text>
-      <Button onPress={() => navigation.goBack()} title="Dismiss" />
-    </View>
-  );
-}
 
 const RootStack = createStackNavigator();
 
@@ -42,7 +26,13 @@ function App() {
         <RootStack.Group
           screenOptions={{
             presentation: "modal",
-            // headerShown: false,
+            gestureEnabled: true,
+            headerBackTitleVisible: false,
+            headerTitle: "",
+            hideNavigationBar: false,
+            gestureEnabled: true,
+            headerShadowVisible: false,
+            // headerStyle: { shadowOffset: { width: 0, height: 0 } },
           }}
         >
           <RootStack.Screen name="MyModal" component={ModalScreen} />

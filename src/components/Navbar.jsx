@@ -15,20 +15,7 @@ export default function Navbar() {
           console.log(darkMode);
         }}
       >
-        <View
-          style={{
-            backgroundColor: "#fff",
-            width: 50,
-            height: 50,
-            borderRadius: 15,
-            shadowColor: "#000",
-            shadowOffset: { width: 1, height: 1 },
-            shadowOpacity: 0.1,
-            shadowRadius: 15,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <View style={styles.darkModeStyle}>
           {darkMode ? (
             <Icon name="sun" size={23} color="black" />
           ) : (
@@ -49,15 +36,13 @@ const styles = StyleSheet.create({
     height: 60,
   },
   logo: { width: 60, height: 33 },
-  darkMode: {
+  darkModeStyle: {
     backgroundColor: "#fff",
     width: 50,
     height: 50,
     borderRadius: 15,
-    shadowColor: "#000",
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.1,
-    shadowRadius: 15,
     justifyContent: "center",
     alignItems: "center",
   },
