@@ -99,121 +99,147 @@ export default function BigCoalationView({
       }}
       style={bgstyle}
     >
-      {LoginPhotoBanner(login, Bgcolor, name, imageStatus, image_url, staff)}
-      <View
-        style={{
-          width: "100%",
-          justifyContent: "space-between",
-          alignItems: "center",
-          paddingHorizontal: 25,
-          paddingVertical: 10,
-          backgroundColor: "rgba(32,32,38,0.75)",
-          borderRadius: 12,
-          flex: 1,
-        }}
-      >
-        <DataText
-          dataName={data?.wallet + " ₳"}
-          text="Wallet"
-          color={data?.coalitions[selected]?.color}
+      <LoginPhotoBanner
+        login={login}
+        Bgcolor={Bgcolor}
+        name={name}
+        imageStatus={imageStatus}
+        image_url={image_url}
+        staff={staff}
+      />
+      <DataLevel
+        data={data}
+        selected={selected}
+        items={items}
+        Bgcolor={Bgcolor}
+        setSelected={setSelected}
+      />
+      {data?.staff === false && (
+        <LevelComponent
+          level={level}
+          Bgcolor={Bgcolor}
+          data={data}
+          selected={selected}
         />
-        <DataText
-          dataName={data?.correction_points}
-          text="Evaluation points"
-          color={data?.coalitions[selected]?.color}
-        />
-        {items.length > 0 && (
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              paddingBottom: 10,
-              width: "100%",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 15,
-                fontWeight: "bold",
-                color: Bgcolor,
-              }}
-            >
-              Cursus
-            </Text>
-            <SelectDropdown
-              data={items}
-              defaultValue={items[items.length - 1]}
-              renderDropdownIcon={() => (
-                <Icon name="chevron-down" size={18} color="white" />
-              )}
-              dropdownIconPosition="right"
-              onSelect={(selectedItem, index) => {
-                setSelected(index);
-              }}
-              buttonTextAfterSelection={(selectedItem, index) => {
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                return item;
-              }}
-              dropdownStyle={{
-                borderRadius: 12,
-                backgroundColor: "rgba(32,32,38,0.35)",
-              }}
-              buttonStyle={{
-                width: "50%",
-                backgroundColor: "transparent",
-                margingVertical: 0,
-                margingVertical: 0,
-                paddingVertical: 0,
-                paddingHorizontal: 0,
-                height: 20,
-                maxWidth: "50%",
-              }}
-              buttonTextStyle={{
-                fontSize: 15,
-                fontWeight: "bold",
-                color: "white",
-              }}
-              // dropdownOverlayColor="transparent"
-              rowStyle={{
-                borderBottomColor: "transparent",
-                borderBottomWidth: 0,
-              }}
-              rowTextStyle={{
-                fontSize: 15,
-                fontWeight: "bold",
-                color: "white",
-              }}
-            />
-          </View>
-        )}
-        {data?.cursus_users[selected]?.grade ? (
-          <DataText
-            dataName={data?.cursus_users[selected]?.grade}
-            text="Grade"
-            color={data?.coalitions[selected]?.color}
-          />
-        ) : (
-          <DataText
-            dataName="Novice"
-            text="Grade"
-            color={data?.coalitions[selected]?.color}
-          />
-        )}
-        {data?.anonymize_date && (
-          <DataText
-            dataName={Moment(data?.anonymize_date).format("DD-MM-YYYY")}
-            text="ETEC"
-            color={data?.coalitions[selected]?.color}
-          />
-        )}
-      </View>
-      {data?.staff === false && LevelComponent(level, Bgcolor, data, selected)}
+      )}
     </ImageBackground>
   );
 }
-function LevelComponent(level, Bgcolor, data, selected) {
+function DataLevel({ data, selected, items, Bgcolor, setSelected }) {
+  return (
+    <View
+      style={{
+        width: "100%",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingHorizontal: 25,
+        paddingVertical: 10,
+        backgroundColor: "rgba(32,32,38,0.75)",
+        borderRadius: 12,
+        flex: 1,
+      }}
+    >
+      <DataText
+        dataName={data?.wallet + " ₳"}
+        text="Wallet"
+        color={data?.coalitions[selected]?.color}
+      />
+      <DataText
+        dataName={data?.correction_points}
+        text="Evaluation points"
+        color={data?.coalitions[selected]?.color}
+      />
+      {items.length > 0 && (
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingBottom: 10,
+            width: "100%",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: "bold",
+              color: Bgcolor,
+            }}
+          >
+            Cursus
+          </Text>
+          <SelectDropdown
+            data={items}
+            defaultValue={items[items.length - 1]}
+            renderDropdownIcon={() => (
+              <Icon name="chevron-down" size={18} color="white" />
+            )}
+            dropdownIconPosition="right"
+            onSelect={(selectedItem, index) => {
+              setSelected(index);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+            dropdownStyle={{
+              borderRadius: 12,
+              backgroundColor: "rgba(32,32,38,0.35)",
+            }}
+            buttonStyle={{
+              width: "50%",
+              backgroundColor: "transparent",
+              margingVertical: 0,
+              margingVertical: 0,
+              paddingVertical: 0,
+              paddingHorizontal: 0,
+              height: 20,
+              maxWidth: "50%",
+            }}
+            buttonTextStyle={{
+              fontSize: 15,
+              fontWeight: "bold",
+              color: "white",
+            }}
+            // dropdownOverlayColor="transparent"
+            rowStyle={{
+              borderBottomColor: "transparent",
+              borderBottomWidth: 0,
+            }}
+            rowTextStyle={{
+              fontSize: 15,
+              fontWeight: "bold",
+              color: "white",
+            }}
+          />
+        </View>
+      )}
+      {data?.cursus_users[selected]?.grade ? (
+        <DataText
+          dataName={data?.cursus_users[selected]?.grade}
+          text="Grade"
+          color={data?.coalitions[selected]?.color}
+        />
+      ) : (
+        <DataText
+          dataName="Novice"
+          text="Grade"
+          color={data?.coalitions[selected]?.color}
+        />
+      )}
+      {data?.anonymize_date && (
+        <DataText
+          dataName={Moment(data?.anonymize_date).format("DD-MM-YYYY")}
+          text="ETEC"
+          color={data?.coalitions[selected]?.color}
+        />
+      )}
+    </View>
+  );
+}
+
+function LevelComponent({ level, Bgcolor, data, selected }) {
   return (
     <View
       style={{
@@ -254,7 +280,14 @@ function LevelComponent(level, Bgcolor, data, selected) {
   );
 }
 
-function LoginPhotoBanner(login, Bgcolor, name, imageStatus, image_url, staff) {
+function LoginPhotoBanner({
+  login,
+  Bgcolor,
+  name,
+  imageStatus,
+  image_url,
+  staff,
+}) {
   return (
     <View
       style={{

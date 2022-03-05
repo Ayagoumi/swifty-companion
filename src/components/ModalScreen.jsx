@@ -282,7 +282,7 @@ function SkillsComponent({ skills }) {
                   >
                     <View
                       style={{
-                        width: `${skill.level * 5}%`,
+                        width: `${skill.level}%`,
                         height: "100%",
                         backgroundColor: "#00babc",
                         borderRadius: 12,
