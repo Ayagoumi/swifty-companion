@@ -10,7 +10,6 @@ import Student from "./Student";
 
 export default function BigCoalationView({
   cover_url,
-  coalitions,
   bgstyle,
   data,
   setProjects,
@@ -202,7 +201,6 @@ function DataLevel({ data, selected, items, Bgcolor, setSelected }) {
               fontWeight: "bold",
               color: "white",
             }}
-            // dropdownOverlayColor="transparent"
             rowStyle={{
               borderBottomColor: "transparent",
               borderBottomWidth: 0,

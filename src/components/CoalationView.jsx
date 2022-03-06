@@ -1,4 +1,4 @@
-import { View, Text, ImageBackground } from "react-native";
+import { View, Text, ImageBackground, StyleSheet } from "react-native";
 import Coalition from "./Coalition";
 import Icon from "react-native-vector-icons/Feather";
 import Student from "./Student";
@@ -74,3 +74,7 @@ export default function CoalationView({
     </ImageBackground>
   );
 }
+
+const styles= StyleSheet.create({
+  container: {}
+})

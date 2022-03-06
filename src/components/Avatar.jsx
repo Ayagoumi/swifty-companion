@@ -29,11 +29,7 @@ export default function Avatar({ data, name, image_url }) {
           ? image_url
           : "https://cdn.intra.42.fr/users/default.png"
       }
-      style={{
-        width: 100,
-        height: 100,
-        marginTop: 15,
-      }}
+      style={{ width: 100, height: 100, marginTop: 15 }}
       bgColor="white"
       textColor="white"
     />

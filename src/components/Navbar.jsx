@@ -1,28 +1,10 @@
-import { useState } from "react";
-import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import React from "react";
-import Icon from "react-native-vector-icons/Feather";
 
 export default function Navbar() {
-  const [darkMode, setDarkMode] = useState(false);
-
   return (
     <View style={styles.navbar}>
       <Image style={styles.logo} source={require("../../assets/42.png")} />
-      <TouchableOpacity
-        onPress={() => {
-          setDarkMode(!darkMode);
-          console.log(darkMode);
-        }}
-      >
-        <View style={styles.darkModeStyle}>
-          {darkMode ? (
-            <Icon name="sun" size={23} color="black" />
-          ) : (
-            <Icon name="moon" size={23} color="black" />
-          )}
-        </View>
-      </TouchableOpacity>
     </View>
   );
 }

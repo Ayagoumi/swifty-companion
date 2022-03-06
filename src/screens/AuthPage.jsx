@@ -1,10 +1,4 @@
-import {
-  View,
-  SafeAreaView,
-  Image,
-  StyleSheet,
-  ImageBackground,
-} from "react-native";
+import { View, Image, StyleSheet, ImageBackground } from "react-native";
 import { useAuthRequest } from "expo-auth-session";
 import { useEffect } from "react";
 import {
@@ -13,7 +7,7 @@ import {
   TOKEN_ENDPOINT,
   AUTHORIZATION_ENDPOINT,
 } from "@env";
-import { Button, ButtonGroup, withTheme, Text } from "react-native-elements";
+import { Button } from "react-native-elements";
 
 const config = {
   authorizationEndpoint: `${AUTHORIZATION_ENDPOINT}`,
@@ -38,7 +32,6 @@ export default function AuthPage({ navigation }) {
       response?.params?.state === `${CUSTOM_STATE}`
     ) {
       navigation.navigate("Home");
-      console.log(response);
     }
   }, [response]);
 
@@ -46,9 +39,7 @@ export default function AuthPage({ navigation }) {
     <ImageBackground
       source={require("../../assets/splash.jpg")}
       resizeMode="cover"
-      imageStyle={{
-        opacity: 0.85,
-      }}
+      imageStyle={{ opacity: 0.85 }}
       style={{ width: "100%", height: "100%" }}
     >
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -59,16 +50,9 @@ export default function AuthPage({ navigation }) {
           onPress={() => {
             promptAsync();
           }}
-          buttonStyle={{
-            backgroundColor: "#00babc",
-            borderRadius: 9,
-            paddingHorizontal: 40,
-            paddingVertical: 15,
-          }}
-          containerStyle={{
-            marginVertical: 30,
-          }}
-          titleStyle={{ color: "white", fontWeight: "bold" }}
+          buttonStyle={styles.connectButtonStyle}
+          containerStyle={styles.connectContainerStyle}
+          titleStyle={styles.connectTitleStyle}
         />
       </View>
     </ImageBackground>
@@ -80,10 +64,17 @@ const styles = StyleSheet.create({
     width: 350,
     height: 200,
   },
-  button: {
-    marginTop: 20,
-    width: "80%",
-    height: 50,
-    backgroundColor: "red",
+  connectButtonStyle: {
+    backgroundColor: "#00babc",
+    borderRadius: 9,
+    paddingHorizontal: 40,
+    paddingVertical: 15,
+  },
+  connectContainerStyle: {
+    marginVertical: 30,
+  },
+  connectTitleStyle: {
+    color: "white",
+    fontWeight: "bold",
   },
 });

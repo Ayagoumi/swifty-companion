@@ -37,11 +37,9 @@ export default AccessTokenInfo = (token) => {
         if (res.data.expires_in_seconds > 0) resolve(token);
       })
       .catch((err) => {
-        console.log(token);
         if (err.response.status === 401) {
           alert("refetching token");
           AccessToken().then((res) => {
-            console.log(res);
             setToken(res.access_token);
             resolve(res.access_token);
           });

@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import Navbar from "../components/Navbar";
 import SearchBar from "../components/SearchBar";
-import { getUserInfo } from "../api/getUserInfos";
 import { AccessToken } from "../api/getUserInfos";
 import Container from "../components/Container";
 import DataText from "../components/DataText";
@@ -23,7 +22,7 @@ export default function HomeScreen({ navigation }) {
   const [status, setStatus] = useState(0);
   const [loading, setLoading] = useState(null);
 
-  // get Access token and expires in variables
+  // get Access token at component mount
   const [token, setToken] = useState(null);
 
   useEffect(() => {
@@ -35,58 +34,27 @@ export default function HomeScreen({ navigation }) {
   }, []);
   // end of that
 
-  const getUserData = (login) => {
-    const getData = () => {
-      getUserInfo(token, setToken, login)
-        .then((res) => {
-          setData(res);
-          setStatus(200);
-          setLoading(false);
-        })
-        .catch((err) => {
-          setStatus(err);
-          console.log(err);
-          setLoading(false);
-        });
-    };
-    if (login && login !== "") getData();
-  };
-
-  let level =
-    data?.cursus_users[data?.cursus_users.length - 1]?.level?.toString();
-  level = level?.split(".")[1];
+  // get the last 2 digits of the level percents
+  let level = data?.cursus_users[data?.cursus_users.length - 1]?.level
+    ?.toString()
+    .split(".")[1];
 
   return (
     <Container>
       <Navbar />
-      <View
-        style={{
-          alignItems: "center",
-        }}
-      >
+      <View style={{ alignItems: "center" }}>
         <Text style={{ fontSize: 30 }}>Swifty Compation</Text>
       </View>
       <SearchBar
         style="auto"
-        getUserData={getUserData}
         setLoading={setLoading}
         loading={loading}
+        setStatus={setStatus}
+        setData={setData}
+        token={token}
+        setToken={setToken}
       />
-      <View
-        style={{
-          marginBottom: 25,
-          alignItems: "center",
-          flex: 1,
-          backgroundColor: "white",
-          width: "100%",
-          height: "100%",
-          borderRadius: 12,
-          shadowColor: "#000",
-          shadowOffset: { width: 1, height: 1 },
-          shadowOpacity: 0.1,
-          shadowRadius: 12,
-        }}
-      >
+      <View style={styles.container}>
         {loading === true ? (
           <View
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -104,31 +72,14 @@ export default function HomeScreen({ navigation }) {
                   staff={data?.staff}
                   bgstyle={styles?.bgstyle}
                 />
-                <View
-                  style={{
-                    width: "100%",
-                    alignItems: "center",
-                  }}
-                >
+                <View style={styles.imageContainer}>
                   <Avatar
                     name={data?.name}
                     image_url={data?.image_url}
                     data={data}
                   />
                   <TouchableOpacity
-                    style={{
-                      position: "absolute",
-                      right: 30,
-                      top: 10,
-                      backgroundColor: "#fff",
-                      width: 50,
-                      height: 50,
-                      borderRadius: 15,
-                      shadowOffset: { width: 1, height: 1 },
-                      shadowOpacity: 0.1,
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
+                    style={styles.openModalButton}
                     onPress={() =>
                       navigation.navigate({
                         name: "MyModal",
@@ -140,29 +91,11 @@ export default function HomeScreen({ navigation }) {
                       })
                     }
                   >
-                    <Icon name="user" size={22} />
+                    <Icon name="grid" size={22} />
                   </TouchableOpacity>
                 </View>
-                <View
-                  style={{
-                    alignItems: "center",
-                    paddingVertical: 15,
-                    flex: 1,
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <View
-                    style={{
-                      backgroundColor: "rgba(32,32,38,0.75)",
-                      width: "85%",
-                      borderRadius: 12,
-                      paddingVertical: 20,
-                      paddingHorizontal: 15,
-                      marginBottom: 10,
-                      flex: 1,
-                      justifyContent: "space-between",
-                    }}
-                  >
+                <View style={styles.detailsContainer}>
+                  <View style={styles.details}>
                     <DataText
                       dataName={data?.wallet + " ₳"}
                       text="Wallet"
@@ -219,56 +152,26 @@ export default function HomeScreen({ navigation }) {
                         {data?.email}
                       </Text>
                       <Campus campus={data?.campus} />
-                      <Text
-                        style={{
-                          fontSize: 25,
-                          color: "white",
-                          fontWeight: "700",
-                        }}
-                      >
+                      <Text style={styles.availabilityText}>
                         {data?.location ? "Available" : "Unavailable"}
                       </Text>
-                      <Text
-                        style={{
-                          fontSize: 25,
-                          color: "white",
-                          fontWeight: "500",
-                        }}
-                      >
+                      <Text style={styles.locationText}>
                         {data?.location ? data?.location : "-"}
                       </Text>
                     </View>
                   </View>
                   {data?.staff === false && (
-                    <View
-                      style={{
-                        width: "85%",
-                        height: 50,
-                        justifyContent: "center",
-                        backgroundColor: "rgba(32,32,38,0.75)",
-                        borderRadius: 12,
-                      }}
-                    >
+                    <View style={styles.levelContainer}>
                       <View
                         style={{
                           width: `${level}%`,
                           backgroundColor: data?.coalitions[0]?.color,
                           height: "100%",
-                          borderBottomLeftRadius: 10,
-                          borderTopLeftRadius: 10,
                           justifyContent: "center",
                           alignItems: "center",
                         }}
                       ></View>
-                      <Text
-                        style={{
-                          position: "absolute",
-                          width: "100%",
-                          textAlign: "center",
-                          color: "white",
-                          fontWeight: "bold",
-                        }}
-                      >
+                      <Text style={styles.levelText}>
                         {data?.cursus_users[data?.cursus_users.length - 1]
                           ?.level
                           ? data?.cursus_users[data?.cursus_users.length - 1]
@@ -291,7 +194,8 @@ export default function HomeScreen({ navigation }) {
                 flex: 1,
               }}
             >
-              <Text style={{ fontSize: 20 }}>No User Found</Text>
+              <Icon name="frown" size={70} />
+              <Text style={{ fontSize: 30 }}>No User Found</Text>
             </View>
           )
         )}
@@ -301,11 +205,82 @@ export default function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginBottom: 25,
+    alignItems: "center",
+    flex: 1,
+    backgroundColor: "white",
+    width: "100%",
+    height: "100%",
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+  },
+  imageContainer: {
+    width: "100%",
+    alignItems: "center",
+  },
+  openModalButton: {
+    position: "absolute",
+    right: 30,
+    top: 10,
+    backgroundColor: "#fff",
+    width: 50,
+    height: 50,
+    borderRadius: 15,
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   bgstyle: {
     height: 110,
     justifyContent: "center",
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     overflow: "hidden",
+  },
+  detailsContainer: {
+    alignItems: "center",
+    paddingVertical: 15,
+    flex: 1,
+    justifyContent: "space-between",
+  },
+  details: {
+    backgroundColor: "rgba(32,32,38,0.75)",
+    width: "85%",
+    borderRadius: 12,
+    paddingVertical: 20,
+    paddingHorizontal: 15,
+    marginBottom: 10,
+    flex: 1,
+    justifyContent: "space-between",
+  },
+  levelContainer: {
+    width: "85%",
+    height: 50,
+    justifyContent: "center",
+    backgroundColor: "rgba(32,32,38,0.75)",
+    borderRadius: 12,
+    overflow: "hidden",
+  },
+  levelText: {
+    position: "absolute",
+    width: "100%",
+    textAlign: "center",
+    color: "white",
+    fontWeight: "bold",
+  },
+  locationText: {
+    fontSize: 25,
+    color: "white",
+    fontWeight: "500",
+  },
+  availabilityText: {
+    fontSize: 25,
+    color: "white",
+    fontWeight: "700",
   },
 });
