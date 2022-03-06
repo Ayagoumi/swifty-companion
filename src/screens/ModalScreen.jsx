@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { View, StyleSheet, Text, FlatList } from "react-native";
-import BigCoalationView from "./BigCoalationView";
+import BigCoalationView from "../components/BigCoalationView";
 import { SvgCssUri } from "react-native-svg";
 
 export default function ModalScreen({ navigation, route }) {
@@ -36,7 +36,8 @@ export default function ModalScreen({ navigation, route }) {
       maxToRenderPerBatch={5}
       removeClippedSubviews={false}
       updateCellsBatchingPeriod={100}
-      initialNumToRender={15}
+      initialNumToRender={5}
+      initialScrollIndex={0}
       contentContainerStyle={{
         paddingBottom: 20,
         backgroundColor: "#FFFAF8",
@@ -105,7 +106,7 @@ function Projects({ loading, projects }) {
                         style={{
                           fontSize: 16,
                           fontWeight: "bold",
-                          color: "black",
+                          color: "yellow",
                         }}
                       >
                         In progress
@@ -278,6 +279,7 @@ function SkillsComponent({ skills }) {
                       backgroundColor: "rgba(32,32,38,0.35)",
                       borderRadius: 12,
                       width: "50%",
+                      overflow: "hidden",
                     }}
                   >
                     <View

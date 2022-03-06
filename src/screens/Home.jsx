@@ -6,23 +6,22 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import Navbar from "./Navbar";
-import SearchBar from "./SearchBar";
+import Navbar from "../components/Navbar";
+import SearchBar from "../components/SearchBar";
 import { getUserInfo } from "../api/getUserInfos";
 import { AccessToken } from "../api/getUserInfos";
-import Container from "./Container";
-import DataText from "./DataText";
+import Container from "../components/Container";
+import DataText from "../components/DataText";
 import Moment from "moment";
-import Avatar from "./Avatar";
-import Campus from "./Campus";
-import CoalationView from "./CoalationView";
+import Avatar from "../components/Avatar";
+import Campus from "../components/Campus";
+import CoalationView from "../components/CoalationView";
 import Icon from "react-native-vector-icons/Feather";
 
 export default function HomeScreen({ navigation }) {
   const [data, setData] = useState(null);
   const [status, setStatus] = useState(0);
   const [loading, setLoading] = useState(null);
-  // navigation.setParams({ data: { data } });
 
   // get Access token and expires in variables
   const [token, setToken] = useState(null);
@@ -38,7 +37,7 @@ export default function HomeScreen({ navigation }) {
 
   const getUserData = (login) => {
     const getData = () => {
-      getUserInfo(token, login)
+      getUserInfo(token, setToken, login)
         .then((res) => {
           setData(res);
           setStatus(200);
@@ -66,7 +65,6 @@ export default function HomeScreen({ navigation }) {
         }}
       >
         <Text style={{ fontSize: 30 }}>Swifty Compation</Text>
-        <Text style={{ fontSize: 20 }}>&nbsp;&nbsp;using login</Text>
       </View>
       <SearchBar
         style="auto"

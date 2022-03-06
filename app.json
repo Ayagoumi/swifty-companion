@@ -4,10 +4,10 @@
     "slug": "swifty-companion",
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/SplashIcon.png",
     "scheme": "swifty-companion",
     "splash": {
-      "image": "./assets/42.png",
+      "image": "./assets/SplashIcon.png",
       "resizeMode": "contain",
       "backgroundColor": "#FFFAF8"
     },

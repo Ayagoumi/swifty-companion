@@ -38,11 +38,14 @@ export default AccessTokenInfo = (token) => {
       })
       .catch((err) => {
         console.log(token);
-        alert("refetching token");
-        AccessToken().then((res) => {
-          console.log(res);
-          resolve(res.access_token);
-        });
+        if (err.response.status === 401) {
+          alert("refetching token");
+          AccessToken().then((res) => {
+            console.log(res);
+            setToken(res.access_token);
+            resolve(res.access_token);
+          });
+        }
         reject(err.response.status);
       });
   });
@@ -111,9 +114,9 @@ export const userData = (token, login) => {
   });
 };
 
-export const getUserInfo = (token, login) => {
+export const getUserInfo = (token, setToken, login) => {
   return new Promise((resolve, reject) => {
-    AccessTokenInfo(token)
+    AccessTokenInfo(token, setToken)
       .then((res) => {
         userData(res, login)
           .then((userData) => {
