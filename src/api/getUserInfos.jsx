@@ -101,7 +101,7 @@ export const userData = (token, login) => {
           status: res.status,
           achievements: res.data.achievements ? res.data.achievements : [],
           projects_users: res.data.projects_users ? res.data.projects_users : [],
-          cursus_users: res.data.cursus_users ? res.data.cursus_users : [],
+          cursus_users: res.data.cursus_users ? sortTable(res.data.cursus_users) : [],
         };
         resolve(data);
       })
@@ -136,4 +136,15 @@ export const getUserInfo = (token, setToken, login) => {
         reject(err);
       });
   });
+};
+
+const sortTable = (array) => {
+  const tab = [];
+  array?.map((cursus) => {
+    tab.push(cursus);
+  });
+  tab.sort((a, b) => {
+    return new Date(b.created_at) - new Date(a.created_at);
+  });
+  return tab;
 };

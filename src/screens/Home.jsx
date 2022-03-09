@@ -35,7 +35,7 @@ export default function HomeScreen({ navigation }) {
   // end of that
 
   // get the last 2 digits of the level percents
-  let level = data?.cursus_users[data?.cursus_users.length - 1]?.level
+  let level = data?.cursus_users[0]?.level
     ?.toString()
     .split(".")[1];
 
@@ -56,9 +56,7 @@ export default function HomeScreen({ navigation }) {
       />
       <View style={styles.container}>
         {loading === true ? (
-          <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          >
+          <View style={styles.activityIndicatorStyle}>
             <ActivityIndicator size="large" />
           </View>
         ) : status === 200 ? (
@@ -91,7 +89,7 @@ export default function HomeScreen({ navigation }) {
                       })
                     }
                   >
-                    <Icon name="grid" size={22} />
+                    <Icon name="grid" size={22} color="#919191" />
                   </TouchableOpacity>
                 </View>
                 <View style={styles.detailsContainer}>
@@ -106,22 +104,22 @@ export default function HomeScreen({ navigation }) {
                       text="Evaluation points"
                       color={data?.coalitions[0]?.color}
                     />
-                    {data?.cursus_users[data?.cursus_users.length - 1]?.cursus
+                    {data?.cursus_users[0]?.cursus
                       ?.name && (
                       <DataText
                         dataName={
-                          data?.cursus_users[data?.cursus_users.length - 1]
+                          data?.cursus_users[0]
                             ?.cursus?.name
                         }
                         text="Cursus"
                         color={data?.coalitions[0]?.color}
                       />
                     )}
-                    {data?.cursus_users[data?.cursus_users.length - 1]
+                    {data?.cursus_users[0]
                       ?.grade && (
                       <DataText
                         dataName={
-                          data?.cursus_users[data?.cursus_users.length - 1]
+                          data?.cursus_users[0]
                             ?.grade
                         }
                         text="Grade"
@@ -172,10 +170,11 @@ export default function HomeScreen({ navigation }) {
                         }}
                       ></View>
                       <Text style={styles.levelText}>
-                        {data?.cursus_users[data?.cursus_users.length - 1]
+                        {data?.cursus_users[0]
                           ?.level
-                          ? data?.cursus_users[data?.cursus_users.length - 1]
-                              ?.level
+                          ? data?.cursus_users[
+                              0
+                            ]?.level.toFixed(2)
                           : 0}
                         &nbsp;%
                       </Text>
@@ -282,5 +281,10 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: "white",
     fontWeight: "700",
+  },
+  activityIndicatorStyle: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
