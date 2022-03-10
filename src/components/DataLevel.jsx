@@ -18,7 +18,7 @@ export default function DataLevel({
       const filtered = data?.projects_users?.filter(
         (obj) => obj?.project?.name === "ft_transcendence"
       );
-      if (filtered?.length > 0) {
+      if (filtered?.length > 0 && filtered[0]?.["validated?"]) {
         return filtered[0]?.["validated?"];
       }
     }
