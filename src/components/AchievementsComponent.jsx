@@ -19,44 +19,16 @@ export default function Achievements({ achievements, bgStyle }) {
           />
           {achievementsData.map((achievement, index) => (
             <View style={{ paddingHorizontal: 30 }} key={index}>
-              <View style={styles.achievement}>
-                <View
-                  style={{
-                    width: "82%",
-                    padding: 12,
-                    height: "100%",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      fontWeight: "bold",
-                      color: "black",
-                    }}
-                  >
+              <View style={styles.achievementContainer}>
+                <View style={styles.achievement}>
+                  <Text style={styles.achievementName}>
                     {achievement?.name}
                   </Text>
-                  <Text
-                    style={{
-                      fontSize: 10,
-                      fontWeight: "bold",
-                      color: "#999",
-                    }}
-                  >
+                  <Text style={styles.achievementDescription}>
                     {achievement?.description}
                   </Text>
                 </View>
-                <View
-                  style={{
-                    width: "18%",
-                    height: "100%",
-                    backgroundColor: "#BEBEBE",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
+                <View style={styles.achievementIcon}>
                   <SvgCssUri
                     width="40px"
                     height="40px"
@@ -74,7 +46,7 @@ export default function Achievements({ achievements, bgStyle }) {
 }
 
 const styles = StyleSheet.create({
-  achievement: {
+  achievementContainer: {
     width: "100%",
     height: 80,
     backgroundColor: "#FFF",
@@ -86,5 +58,29 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderWidth: 2,
     borderColor: "#DEDEDE",
+  },
+  achievement: {
+    width: "82%",
+    padding: 12,
+    height: "100%",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  achievementName: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "black",
+  },
+  achievementDescription: {
+    fontSize: 10,
+    fontWeight: "bold",
+    color: "#999",
+  },
+  achievementIcon: {
+    width: "18%",
+    height: "100%",
+    backgroundColor: "#BEBEBE",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

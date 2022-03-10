@@ -23,15 +23,7 @@ export default function CoalationView({
       }}
       style={bgstyle}
     >
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          width: "100%",
-          paddingHorizontal: 20,
-        }}
-      >
+      <View style={styles.container}>
         {coalitions ? (
           <Coalition
             coalition={coalitions}
@@ -40,32 +32,12 @@ export default function CoalationView({
             imageURL={coalitions?.image_url}
           />
         ) : (
-          <View
-            style={{
-              width: 30,
-              height: 50,
-              backgroundColor: "#00babc",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          <View style={styles.defaultCoalationView}>
             <Icon name="slash" size={23} color="white" />
           </View>
         )}
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "flex-end",
-          }}
-        >
-          <Text
-            numberOfLines={1}
-            style={{
-              color: "white",
-              fontWeight: "bold",
-              marginBottom: 15,
-            }}
-          >
+        <View style={styles.nameContainer}>
+          <Text numberOfLines={1} style={styles.nameText}>
             {name?.length <= 20 ? name : `${name.substring(0, 20)}...`}
           </Text>
           <Student color={coalitions?.color} staff={staff} />
@@ -75,6 +47,28 @@ export default function CoalationView({
   );
 }
 
-const styles= StyleSheet.create({
-  container: {}
-})
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingHorizontal: 20,
+  },
+  defaultCoalationView: {
+    width: 30,
+    height: 50,
+    backgroundColor: "#00babc",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  nameContainer: {
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
+  nameText: {
+    color: "white",
+    fontWeight: "bold",
+    marginBottom: 15,
+  },
+});

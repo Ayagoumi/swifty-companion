@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import DataText from "./DataText";
 import Moment from "moment";
 import SelectDropdown from "react-native-select-dropdown";

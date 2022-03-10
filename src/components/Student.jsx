@@ -15,13 +15,7 @@ export default function Student({ staff, color }) {
           <Text style={styles.staffText}>STUDENT</Text>
         </View>
       ) : (
-        <View
-          style={{
-            backgroundColor: "#E05757",
-            padding: 5,
-            borderRadius: 5,
-          }}
-        >
+        <View style={styles.staffContainer}>
           <Text style={styles.staffText}>STAFF</Text>
         </View>
       )}
@@ -33,5 +27,10 @@ const styles = StyleSheet.create({
   staffText: {
     fontWeight: "bold",
     color: "white",
+  },
+  staffContainer: {
+    backgroundColor: "#E05757",
+    padding: 5,
+    borderRadius: 5,
   },
 });

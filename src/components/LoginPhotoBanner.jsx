@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import UserAvatar from "react-native-user-avatar";
 import Student from "./Student";
 
@@ -11,19 +11,7 @@ export default function LoginPhotoBanner({
   staff,
 }) {
   return (
-    <View
-      style={{
-        width: "100%",
-        justifyContent: "space-between",
-        flexDirection: "row",
-        alignItems: "center",
-        paddingHorizontal: 25,
-        paddingVertical: 10,
-        backgroundColor: "rgba(32,32,38,0.85)",
-        borderRadius: 12,
-        marginBottom: 15,
-      }}
-    >
+    <View style={styles.container}>
       <Text
         style={{
           fontWeight: "bold",
@@ -60,3 +48,17 @@ export default function LoginPhotoBanner({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 25,
+    paddingVertical: 10,
+    backgroundColor: "rgba(32,32,38,0.85)",
+    borderRadius: 12,
+    marginBottom: 15,
+  },
+});

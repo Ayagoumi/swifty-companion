@@ -1,13 +1,8 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 export default function BlackHole({ remaining, Bgcolor }) {
   return (
-    <View
-      style={{
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <View style={styles.blackholeContainer}>
       <Text
         style={{
           fontSize: 12,
@@ -39,3 +34,10 @@ export default function BlackHole({ remaining, Bgcolor }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  blackholeContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+  },
+});

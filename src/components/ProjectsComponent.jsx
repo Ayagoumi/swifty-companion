@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import TitleMore from "./TitleMore";
 
 export default function Projects({ loading, projects, bgStyle }) {
@@ -20,26 +20,9 @@ export default function Projects({ loading, projects, bgStyle }) {
               projectsData?.map((project) => (
                 <View
                   key={project?.project?.id}
-                  style={{
-                    width: "100%",
-                    height: 60,
-                    // backgroundColor: "rgba(41, 45, 57, 0.65)",
-                    backgroundColor: "rgba(32,32,38,0.65)",
-                    borderRadius: 12,
-                    padding: 12,
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    flexDirection: "row",
-                    marginVertical: 5,
-                  }}
+                  style={styles.projectContainer}
                 >
-                  <Text
-                    style={{
-                      fontSize: 22,
-                      fontWeight: "bold",
-                      color: "#00babc",
-                    }}
-                  >
+                  <Text style={styles.projectName}>
                     {project.project.name?.length <= 20
                       ? project.project.name
                       : `${project.project.name.substring(0, 20)}...`}
@@ -58,15 +41,7 @@ export default function Projects({ loading, projects, bgStyle }) {
                         {project.final_mark}&nbsp;%
                       </Text>
                     ) : (
-                      <Text
-                        style={{
-                          fontSize: 16,
-                          fontWeight: "bold",
-                          color: "yellow",
-                        }}
-                      >
-                        In progress
-                      </Text>
+                      <Text style={styles.inprogress}>In progress</Text>
                     )}
                   </View>
                 </View>
@@ -77,3 +52,27 @@ export default function Projects({ loading, projects, bgStyle }) {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  inprogress: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "yellow",
+  },
+  projectName: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#00babc",
+  },
+  projectContainer: {
+    width: "100%",
+    height: 60,
+    backgroundColor: "rgba(32,32,38,0.65)",
+    borderRadius: 12,
+    padding: 12,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    marginVertical: 5,
+  },
+});

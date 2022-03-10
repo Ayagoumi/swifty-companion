@@ -6,6 +6,7 @@ import {
   TOKEN_ENDPOINT_INFOS,
 } from "@env";
 import axios from "axios";
+import { sortTable } from "../helpers/SortTable";
 
 export const AccessToken = () => {
   return new Promise((resolve, reject) => {
@@ -136,15 +137,4 @@ export const getUserInfo = (token, setToken, login) => {
         reject(err);
       });
   });
-};
-
-const sortTable = (array) => {
-  const tab = [];
-  array?.map((cursus) => {
-    tab.push(cursus);
-  });
-  tab.sort((a, b) => {
-    return new Date(b.created_at) - new Date(a.created_at);
-  });
-  return tab;
 };

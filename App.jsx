@@ -39,6 +39,7 @@ function App() {
             hideNavigationBar: false,
             gestureEnabled: true,
             headerShadowVisible: false,
+            cardStyle: { backgroundColor: "#FFFAF8" },
           }}
         >
           <RootStack.Screen name="MyModal" component={ModalScreen} />
