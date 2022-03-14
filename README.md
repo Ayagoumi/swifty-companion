@@ -24,8 +24,8 @@ $ yarn
 Before starting the project, you are going to need some configuration to be able to get 42 API token and fetch the data.
 Open the `.env` file:
 ```
-  CLIENT_ID: "YOUR_CLIENT_ID",
-  CLIENT_SECRET: "YOUR_CLIENT_SECRET",
+  CLIENT_ID: YOUR_CLIENT_ID,
+  CLIENT_SECRET: YOUR_CLIENT_SECRET,
   ...
   ...
 
