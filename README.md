@@ -4,7 +4,7 @@ This project is an introduction to develop mobile development. The goal is to cr
 
 <table>
   <tr>
-    <td valign="top"><img src="/assets/screenshots/app.gif"/></td>
+    <td valign="top"><img src="/assets/screenshots/1.gif"/></td>
   </tr>
 </table>
 
