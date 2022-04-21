@@ -48,7 +48,7 @@ export default function SearchBar({ setLoading, loading, setStatus, setData, tok
           />
         </View>
         <TouchableOpacity
-          style={styles.searchButton}
+          style={{ ...styles.searchButton, backgroundColor: (loading || text === oldValue) ? "#ccc" : "black" }}
           onPress={() => {
             if (text !== oldValue) {
               Keyboard.dismiss();
