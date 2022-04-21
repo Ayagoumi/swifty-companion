@@ -19,7 +19,7 @@ export default function AuthPage({ navigation }) {
     {
       clientId: `${CLIENT_ID}`,
       scopes: ["public"],
-      redirectUri: "exp://localhost:19000",
+      redirectUri: "exp://callback",
       state: `${CUSTOM_STATE}`,
       responseType: "code",
     },
