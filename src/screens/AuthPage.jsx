@@ -19,7 +19,7 @@ export default function AuthPage({ navigation }) {
     {
       clientId: `${CLIENT_ID}`,
       scopes: ["public"],
-      redirectUri: "com.ayagoumi.swifty-companion://callback",
+      redirectUri: "exp://callback",
       state: `${CUSTOM_STATE}`,
       responseType: "code",
     },

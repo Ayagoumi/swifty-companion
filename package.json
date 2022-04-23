@@ -1,10 +1,11 @@
 {
   "name": "swifty-companion",
   "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start --dev-client",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
     "eject": "expo eject"
   },
   "dependencies": {
@@ -38,10 +39,7 @@
     "react-native-svg": "^12.1.1",
     "react-native-svg-uri": "^1.2.3",
     "react-native-user-avatar": "^1.0.8",
-    "react-native-vector-icons": "^9.1.0",
-    "expo-splash-screen": "~0.14.1",
-    "react-dom": "17.0.1",
-    "react-native-web": "0.17.1"
+    "react-native-vector-icons": "^9.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
