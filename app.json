@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/SplashIcon.png",
-    "scheme": "swifty-companion",
+    "scheme": "com.ayagoumi.swifty-companion",
     "splash": {
       "image": "./assets/SplashIcon.png",
       "resizeMode": "contain",
@@ -14,12 +14,11 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "bundleIdentifier": "com.ayagoumi.swifty-companion"
     },
     "android": {
       "adaptiveIcon": {
